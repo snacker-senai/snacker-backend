@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Snacker.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class HelloWorldController : ControllerBase
     {
         private readonly ILogger<HelloWorldController> _logger;
@@ -18,7 +18,7 @@ namespace Snacker.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("[method]")]
+        [HttpGet]
         public IActionResult Get()
         {
             return Ok("Hello World!");

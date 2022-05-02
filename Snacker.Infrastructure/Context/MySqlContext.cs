@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Snacker.Domain.Entities;
+using Snacker.Infrastructure.Mapping;
 
 namespace Snacker.Infrastructure.Context
 {
@@ -9,13 +11,13 @@ namespace Snacker.Infrastructure.Context
 
         }
 
-        //public DbSet<User> Users { get; set; }
+        public DbSet<Address> Adresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<User>(new UserMap().Configure);
+            modelBuilder.Entity<Address>(new AddressMap().Configure);
         }
     }
 }

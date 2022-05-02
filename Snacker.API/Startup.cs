@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Snacker.Domain.Entities;
+using Snacker.Domain.Interfaces;
+using Snacker.Domain.Services;
 using Snacker.Infrastructure.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Snacker.Infrastructure.Repository;
 
 namespace Snacker.API
 {
@@ -29,11 +26,14 @@ namespace Snacker.API
         {
             var connectionString = Configuration.GetConnectionString("MySqlConnection");
             services.AddDbContext<MySqlContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snacker.API", Version = "v1" });
             });
+
+            services.AddScoped<IBaseRepository<Address>, BaseRepository<Address>>();
+            services.AddScoped<IBaseService<Address>, BaseService<Address>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

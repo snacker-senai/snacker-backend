@@ -18,10 +18,10 @@ namespace Snacker.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public string Get()
+        [HttpGet("[method]")]
+        public IActionResult Get()
         {
-            return "Hello World!";
+            return Ok("Hello World!");
         }
     }
 }

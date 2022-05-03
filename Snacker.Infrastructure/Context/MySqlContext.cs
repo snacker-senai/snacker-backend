@@ -12,12 +12,14 @@ namespace Snacker.Infrastructure.Context
         }
 
         public DbSet<Address> Adresses { get; set; }
+        public DbSet<RestaurantCategory> RestaurantCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Address>(new AddressMap().Configure);
+            modelBuilder.Entity<RestaurantCategory>(new RestaurantCategoryMap().Configure);
         }
     }
 }

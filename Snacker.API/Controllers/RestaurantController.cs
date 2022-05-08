@@ -8,31 +8,31 @@ namespace Snacker.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AddressController : ControllerBase
+    public class RestaurantController : ControllerBase
     {
-        private IBaseService<Address> _baseAddressService;
+        private IBaseService<Restaurant> _baseRestaurantService;
 
-        public AddressController(IBaseService<Address> baseAddressService)
+        public RestaurantController(IBaseService<Restaurant> baseRestaurantService)
         {
-            _baseAddressService = baseAddressService;
+            _baseRestaurantService = baseRestaurantService;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Address address)
+        public IActionResult Create([FromBody] Restaurant restaurant)
         {
-            if (address == null)
+            if (restaurant == null)
                 return NotFound();
 
-            return Execute(() => _baseAddressService.Add<AddressValidator>(address).Id);
+            return Execute(() => _baseRestaurantService.Add<RestaurantValidator>(restaurant).Id);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Address address)
+        public IActionResult Update([FromBody] Restaurant restaurant)
         {
-            if (address == null)
+            if (restaurant == null)
                 return NotFound();
 
-            return Execute(() => _baseAddressService.Update<AddressValidator>(address));
+            return Execute(() => _baseRestaurantService.Update<RestaurantValidator>(restaurant));
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +43,7 @@ namespace Snacker.API.Controllers
 
             Execute(() =>
             {
-                _baseAddressService.Delete(id);
+                _baseRestaurantService.Delete(id);
                 return true;
             });
 
@@ -53,7 +53,7 @@ namespace Snacker.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(() => _baseAddressService.Get());
+            return Execute(() => _baseRestaurantService.Get());
         }
 
         [HttpGet("{id}")]
@@ -62,7 +62,7 @@ namespace Snacker.API.Controllers
             if (id == 0)
                 return NotFound();
 
-            return Execute(() => _baseAddressService.GetById(id));
+            return Execute(() => _baseRestaurantService.GetById(id));
         }
 
         private IActionResult Execute(Func<object> func)

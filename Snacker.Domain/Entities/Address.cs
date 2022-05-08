@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Snacker.Domain.Entities
 {
@@ -16,5 +17,7 @@ namespace Snacker.Domain.Entities
         public string Number { get; set; }
         [Required]
         public string Country { get; set; }
+        [JsonIgnore]
+        public Restaurant Restaurant { get; set; }
     }
 }

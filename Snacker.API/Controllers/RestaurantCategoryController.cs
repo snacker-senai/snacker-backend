@@ -10,7 +10,7 @@ namespace Snacker.API.Controllers
     [Route("api/[controller]")]
     public class RestaurantCategoryController : ControllerBase
     {
-        private IBaseService<RestaurantCategory> _baseRestaurantCategoryService;
+        private readonly IBaseService<RestaurantCategory> _baseRestaurantCategoryService;
 
         public RestaurantCategoryController(IBaseService<RestaurantCategory> baseRestaurantCategoryService)
         {

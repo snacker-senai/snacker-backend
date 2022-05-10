@@ -12,7 +12,7 @@ namespace Snacker.API.Controllers
     {
         private readonly IBaseService<Restaurant> _baseRestaurantService;
 
-        public RestaurantController(IBaseService<Restaurant> baseRestaurantService)
+        public RestaurantController(IBaseService<Restaurant> baseRstaurantService)
         {
             _baseRestaurantService = baseRestaurantService;
         }

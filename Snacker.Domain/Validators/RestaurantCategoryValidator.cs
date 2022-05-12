@@ -8,8 +8,8 @@ namespace Snacker.Domain.Validators
         public RestaurantCategoryValidator()
         {
             RuleFor(c => c.Name)
-                .NotEmpty().WithMessage("Please enter the category name.")
-                .NotNull().WithMessage("Please enter the category name.");
+                .NotEmpty().WithMessage("Please enter the name.")
+                .NotNull().WithMessage("Please enter the name.");
         }
     }
 }

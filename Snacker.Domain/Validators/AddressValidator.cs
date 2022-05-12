@@ -24,8 +24,8 @@ namespace Snacker.Domain.Validators
                 .NotNull().WithMessage("Please enter the city.");
 
             RuleFor(c => c.Number)
-                .NotEmpty().WithMessage("Please enter the adress number.")
-                .NotNull().WithMessage("Please enter the adress number.");
+                .NotEmpty().WithMessage("Please enter the address number.")
+                .NotNull().WithMessage("Please enter the address number.");
 
             RuleFor(c => c.Country)
                 .NotEmpty().WithMessage("Please enter the country.")

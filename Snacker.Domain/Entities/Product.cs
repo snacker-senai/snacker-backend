@@ -22,5 +22,7 @@ namespace Snacker.Domain.Entities
         public ProductCategory ProductCategory { get; set; }
         [JsonIgnore]
         public Restaurant Restaurant { get; set; }
+        [Required]
+        public ICollection<OrderHasProduct> OrderHasProductCollection { get; set; }
     }
 }

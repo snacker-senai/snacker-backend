@@ -55,6 +55,9 @@ namespace Snacker.API
 
             services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
             services.AddScoped<IBaseService<User>, BaseService<User>>();
+
+            services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
+            services.AddScoped<IBaseService<Product>, BaseService<Product>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

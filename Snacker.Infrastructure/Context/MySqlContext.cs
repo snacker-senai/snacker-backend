@@ -16,6 +16,7 @@ namespace Snacker.Infrastructure.Context
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace Snacker.Infrastructure.Context
             modelBuilder.Entity<Restaurant>(new RestaurantMap().Configure);
             modelBuilder.Entity<Person>(new PersonMap().Configure);
             modelBuilder.Entity<Table>(new TableMap().Configure);
+            modelBuilder.Entity<ProductCategory>(new ProductCategoryMap().Configure);
         }
     }
 }

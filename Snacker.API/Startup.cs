@@ -34,14 +34,21 @@ namespace Snacker.API
 
             services.AddScoped<IBaseRepository<Address>, BaseRepository<Address>>();
             services.AddScoped<IBaseService<Address>, BaseService<Address>>();
+
             services.AddScoped<IBaseRepository<Restaurant>, BaseRepository<Restaurant>>();
             services.AddScoped<IBaseService<Restaurant>, BaseService<Restaurant>>();
+
             services.AddScoped<IBaseRepository<RestaurantCategory>, BaseRepository<RestaurantCategory>>();
             services.AddScoped<IBaseService<RestaurantCategory>, BaseService<RestaurantCategory>>();
+
             services.AddScoped<IBaseRepository<Person>, BaseRepository<Person>>();
             services.AddScoped<IBaseService<Person>, BaseService<Person>>();
+
             services.AddScoped<IBaseRepository<Table>, BaseRepository<Table>>();
             services.AddScoped<IBaseService<Table>, BaseService<Table>>();
+
+            services.AddScoped<IBaseRepository<ProductCategory>, BaseRepository<ProductCategory>>();
+            services.AddScoped<IBaseService<ProductCategory>, BaseService<ProductCategory>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

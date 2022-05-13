@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Snacker.Domain.Entities
 {
@@ -6,5 +8,7 @@ namespace Snacker.Domain.Entities
     {
         [Required]
         public string Number { get; set; }
+        [JsonIgnore]
+        public IList<Order> Orders { get; set; }
     }
 }

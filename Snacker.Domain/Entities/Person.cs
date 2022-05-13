@@ -21,5 +21,7 @@ namespace Snacker.Domain.Entities
         public Restaurant Restaurant { get; set; }
         [Required]
         public Address Address { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }

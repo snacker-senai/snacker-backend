@@ -18,6 +18,7 @@ namespace Snacker.Infrastructure.Context
         public DbSet<Table> Tables { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +31,7 @@ namespace Snacker.Infrastructure.Context
             modelBuilder.Entity<Table>(new TableMap().Configure);
             modelBuilder.Entity<ProductCategory>(new ProductCategoryMap().Configure);
             modelBuilder.Entity<UserType>(new UserTypeMap().Configure);
+            modelBuilder.Entity<User>(new UserMap().Configure);
         }
     }
 }

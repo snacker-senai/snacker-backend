@@ -9,6 +9,6 @@ namespace Snacker.Domain.Entities
         [Required]
         public string Name { get; set; }
         [JsonIgnore]
-        public IList<Restaurant> Restaurants { get; set; }
+        public ICollection<Restaurant> Restaurants { get; set; }
     }
 }

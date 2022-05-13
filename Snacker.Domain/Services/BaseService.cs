@@ -24,7 +24,7 @@ namespace Snacker.Domain.Services
 
         public void Delete(int id) => _baseRepository.Delete(id);
 
-        public IList<TEntity> Get() => _baseRepository.Select();
+        public ICollection<TEntity> Get() => _baseRepository.Select();
 
         public TEntity GetById(int id) => _baseRepository.Select(id);
 

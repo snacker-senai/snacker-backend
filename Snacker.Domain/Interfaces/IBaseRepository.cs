@@ -11,7 +11,7 @@ namespace Snacker.Domain.Interfaces
 
         void Delete(int id);
 
-        IList<TEntity> Select();
+        ICollection<TEntity> Select();
 
         TEntity Select(int id);
     }

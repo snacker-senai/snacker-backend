@@ -10,7 +10,7 @@ namespace Snacker.Domain.Interfaces
 
         void Delete(int id);
 
-        IList<TEntity> Get();
+        ICollection<TEntity> Get();
 
         TEntity GetById(int id);
 

@@ -33,7 +33,7 @@ namespace Snacker.Infrastructure.Repository
             _mySqlContext.SaveChanges();
         }
 
-        public IList<TEntity> Select() =>
+        public ICollection<TEntity> Select() =>
             _mySqlContext.Set<TEntity>().ToList();
 
         public TEntity Select(int id) =>

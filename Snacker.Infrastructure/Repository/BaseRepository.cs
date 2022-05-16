@@ -15,28 +15,28 @@ namespace Snacker.Infrastructure.Repository
             _mySqlContext = mySqlContext;
         }
 
-        public void Insert(TEntity obj)
+        public virtual void Insert(TEntity obj)
         {
             _mySqlContext.Set<TEntity>().Add(obj);
             _mySqlContext.SaveChanges();
         }
 
-        public void Update(TEntity obj)
+        public virtual void Update(TEntity obj)
         {
             _mySqlContext.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _mySqlContext.SaveChanges();
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             _mySqlContext.Set<TEntity>().Remove(Select(id));
             _mySqlContext.SaveChanges();
         }
 
-        public ICollection<TEntity> Select() =>
+        public virtual ICollection<TEntity> Select() =>
             _mySqlContext.Set<TEntity>().ToList();
 
-        public TEntity Select(int id) =>
+        public virtual TEntity Select(int id) =>
             _mySqlContext.Set<TEntity>().Find(id);
 
     }

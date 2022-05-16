@@ -15,27 +15,27 @@ namespace Snacker.Domain.Services
             _baseRepository = baseRepository;
         }
 
-        public TEntity Add<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>
+        public virtual TEntity Add<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>
         {
             Validate(obj, Activator.CreateInstance<TValidator>());
             _baseRepository.Insert(obj);
             return obj;
         }
 
-        public void Delete(int id) => _baseRepository.Delete(id);
+        public virtual void Delete(int id) => _baseRepository.Delete(id);
 
-        public ICollection<TEntity> Get() => _baseRepository.Select();
+        public virtual ICollection<TEntity> Get() => _baseRepository.Select();
 
-        public TEntity GetById(int id) => _baseRepository.Select(id);
+        public virtual TEntity GetById(int id) => _baseRepository.Select(id);
 
-        public TEntity Update<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>
+        public virtual TEntity Update<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>
         {
             Validate(obj, Activator.CreateInstance<TValidator>());
             _baseRepository.Update(obj);
             return obj;
         }
 
-        private void Validate(TEntity obj, AbstractValidator<TEntity> validator)
+        protected static void Validate(TEntity obj, AbstractValidator<TEntity> validator)
         {
             if (obj == null)
                 throw new Exception("Null object");

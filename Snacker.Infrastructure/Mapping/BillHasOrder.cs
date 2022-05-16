@@ -10,7 +10,7 @@ namespace Snacker.Infrastructure.Mapping
         {
             builder.ToTable("bill_has_order");
 
-            builder.HasKey(prop => prop.Id);
+            builder.HasKey(prop => new { prop.BillId, prop.OrderId });
 
             builder.HasOne(prop => prop.Order).WithMany(a => a.BillHasOrderCollection).HasForeignKey(prop => prop.OrderId);
             builder.Property(prop => prop.OrderId)

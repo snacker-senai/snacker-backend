@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Snacker.Domain.Entities
 {
-    public class BillHasOrder : BaseEntity
+    public class BillHasOrder
     {
         [Required]
         public long BillId { get; set; }

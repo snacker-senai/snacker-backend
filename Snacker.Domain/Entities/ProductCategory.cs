@@ -10,5 +10,9 @@ namespace Snacker.Domain.Entities
         public string Name { get; set; }
         [JsonIgnore]
         public ICollection<Product> Products { get; set; }
+        [Required]
+        public long RestaurantId { get; set; }
+        [JsonIgnore]
+        public Restaurant Restaurant { get; set; }
     }
 }

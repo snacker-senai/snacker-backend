@@ -22,5 +22,7 @@ namespace Snacker.Domain.Entities
         public ICollection<Person> Persons { get; set; }
         [JsonIgnore]
         public ICollection<Product> Products { get; set; }
+        [JsonIgnore]
+        public ICollection<ProductCategory> ProductCategories { get; set; }
     }
 }

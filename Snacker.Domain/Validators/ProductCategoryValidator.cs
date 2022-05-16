@@ -10,6 +10,10 @@ namespace Snacker.Domain.Validators
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Please enter the name.")
                 .NotNull().WithMessage("Please enter the name.");
+
+            RuleFor(c => c.RestaurantId)
+               .NotEmpty().WithMessage("Please enter the restaurant.")
+               .NotNull().WithMessage("Please enter the restaurant.");
         }
     }
 }

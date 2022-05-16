@@ -12,5 +12,8 @@ namespace Snacker.Domain.Entities
         public Table Table { get; set; }
         [Required]
         public ICollection<OrderHasProduct> OrderHasProductCollection { get; set; }
+
+        [Required]
+        public ICollection<BillHasOrder> BillHasOrderCollection { get; set; }
     }
 }

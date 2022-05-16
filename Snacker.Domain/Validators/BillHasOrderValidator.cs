@@ -3,17 +3,17 @@ using Snacker.Domain.Entities;
 
 namespace Snacker.Domain.Validators
 {
-    public class OrderHasProductValidator : AbstractValidator<OrderHasProduct>
+    public class BillHasOrderValidator : AbstractValidator<BillHasOrder>
     {
-        public OrderHasProductValidator()
+        public BillHasOrderValidator()
         {
             RuleFor(c => c.OrderId)
                  .NotEmpty().WithMessage("Please enter the order.")
                  .NotNull().WithMessage("Please enter the order.");
 
-            RuleFor(c => c.ProductId)
-                 .NotEmpty().WithMessage("Please enter the product.")
-                 .NotNull().WithMessage("Please enter the product.");
+            RuleFor(c => c.BillId)
+                 .NotEmpty().WithMessage("Please enter the bill.")
+                 .NotNull().WithMessage("Please enter the bill.");
         }
     }
 }

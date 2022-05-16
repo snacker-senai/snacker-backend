@@ -22,6 +22,7 @@ namespace Snacker.Infrastructure.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderHasProduct> OrderHasProductCollection { get; set; }
+        public DbSet<Bill> Bills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +39,7 @@ namespace Snacker.Infrastructure.Context
             modelBuilder.Entity<Product>(new ProductMap().Configure);
             modelBuilder.Entity<Order>(new OrderMap().Configure);
             modelBuilder.Entity<OrderHasProduct>(new OrderHasProductMap().Configure);
+            modelBuilder.Entity<Bill>(new BillMap().Configure);
         }
     }
 }

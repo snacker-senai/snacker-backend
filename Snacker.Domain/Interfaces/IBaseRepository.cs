@@ -9,10 +9,10 @@ namespace Snacker.Domain.Interfaces
 
         void Update(TEntity obj);
 
-        void Delete(int id);
+        void Delete(long id);
 
         ICollection<TEntity> Select();
 
-        TEntity Select(int id);
+        TEntity Select(long id);
     }
 }

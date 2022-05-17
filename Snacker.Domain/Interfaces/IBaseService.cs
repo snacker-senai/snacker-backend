@@ -8,11 +8,11 @@ namespace Snacker.Domain.Interfaces
     {
         TEntity Add<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>;
 
-        void Delete(int id);
+        void Delete(long id);
 
-        ICollection<TEntity> Get();
+        ICollection<object> Get();
 
-        TEntity GetById(int id);
+        object GetById(long id);
 
         TEntity Update<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>;
     }

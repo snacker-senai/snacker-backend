@@ -26,7 +26,7 @@ namespace Snacker.Infrastructure.Repository
             return _mySqlContext.Set<Restaurant>().Include(p => p.RestaurantCategory).Include(p => p.Address).ToList();
         }
 
-        public override Restaurant Select(int id)
+        public override Restaurant Select(long id)
         {
             return _mySqlContext.Set<Restaurant>().Include(p => p.RestaurantCategory).Include(p => p.Address).FirstOrDefault(p => p.Id == id);
         }

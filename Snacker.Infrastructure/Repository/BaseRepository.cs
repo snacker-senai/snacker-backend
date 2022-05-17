@@ -27,7 +27,7 @@ namespace Snacker.Infrastructure.Repository
             _mySqlContext.SaveChanges();
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(long id)
         {
             _mySqlContext.Set<TEntity>().Remove(Select(id));
             _mySqlContext.SaveChanges();
@@ -36,7 +36,7 @@ namespace Snacker.Infrastructure.Repository
         public virtual ICollection<TEntity> Select() =>
             _mySqlContext.Set<TEntity>().ToList();
 
-        public virtual TEntity Select(int id) =>
+        public virtual TEntity Select(long id) =>
             _mySqlContext.Set<TEntity>().Find(id);
 
     }

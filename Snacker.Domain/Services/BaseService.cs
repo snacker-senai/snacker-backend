@@ -22,11 +22,20 @@ namespace Snacker.Domain.Services
             return obj;
         }
 
-        public virtual void Delete(int id) => _baseRepository.Delete(id);
+        public virtual void Delete(long id) => _baseRepository.Delete(id);
 
-        public virtual ICollection<TEntity> Get() => _baseRepository.Select();
+        public virtual ICollection<object> Get()
+        {
+            var itens = _baseRepository.Select();
+            ICollection<object> result = new List<object>();
+            foreach (var item in itens)
+            {
+                result.Add(item);
+            }
+            return result;
+        }
 
-        public virtual TEntity GetById(int id) => _baseRepository.Select(id);
+        public virtual object GetById(long id) => _baseRepository.Select(id);
 
         public virtual TEntity Update<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>
         {

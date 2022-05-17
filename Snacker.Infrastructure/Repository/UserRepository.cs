@@ -29,7 +29,7 @@ namespace Snacker.Infrastructure.Repository
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).ToList();
         }
 
-        public override User Select(int id)
+        public override User Select(long id)
         {
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).FirstOrDefault(p => p.Id == id);
         }

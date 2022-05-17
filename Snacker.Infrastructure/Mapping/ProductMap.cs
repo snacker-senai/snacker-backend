@@ -15,7 +15,7 @@ namespace Snacker.Infrastructure.Mapping
             builder.HasOne(prop => prop.ProductCategory).WithMany(a => a.Products).HasForeignKey(prop => prop.ProductCategoryId);
             builder.Property(prop => prop.ProductCategoryId)
                 .IsRequired()
-                .HasColumnName("product_category_id");
+                .HasColumnName("produtct_category_id");
 
             builder.HasOne(prop => prop.Restaurant).WithMany(a => a.Products).HasForeignKey(prop => prop.RestaurantId);
             builder.Property(prop => prop.RestaurantId)

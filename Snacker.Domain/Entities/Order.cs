@@ -10,10 +10,10 @@ namespace Snacker.Domain.Entities
         public long TableId { get; set; }
         [JsonIgnore]
         public Table Table { get; set; }
-        [Required]
+        [JsonIgnore]
         public ICollection<OrderHasProduct> OrderHasProductCollection { get; set; }
 
-        [Required]
+        [JsonIgnore]
         public ICollection<BillHasOrder> BillHasOrderCollection { get; set; }
     }
 }

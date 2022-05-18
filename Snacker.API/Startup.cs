@@ -56,8 +56,8 @@ namespace Snacker.API
             services.AddScoped<IBaseRepository<User>, UserRepository>();
             services.AddScoped<IBaseService<User>, UserService>();
 
-            services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
-            services.AddScoped<IBaseService<Product>, BaseService<Product>>();
+            services.AddScoped<IBaseRepository<Product>, ProductRepository>();
+            services.AddScoped<IBaseService<Product>, ProductService>();
 
             services.AddScoped<IBaseRepository<Order>, BaseRepository<Order>>();
             services.AddScoped<IBaseService<Order>, BaseService<Order>>();

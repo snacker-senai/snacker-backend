@@ -15,13 +15,6 @@ namespace Snacker.Domain.Services
             _restaurantRepository = restaurantRepository;
         }
 
-        public override Restaurant Add<TValidator>(Restaurant obj)
-        {
-            Validate(obj, Activator.CreateInstance<RestaurantValidator>());
-            _restaurantRepository.Insert(obj);
-            return obj;
-        }
-
         public override ICollection<object> Get()
         {
             var itens = _restaurantRepository.Select();

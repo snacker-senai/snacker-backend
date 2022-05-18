@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Snacker.Domain.DTOs;
+﻿using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -15,14 +14,6 @@ namespace Snacker.Domain.Services
         {
             _userRepository = userRepository;
         }
-
-        public override User Add<TValidator>(User obj)
-        {
-            Validate(obj, Activator.CreateInstance<UserValidator>());
-            _userRepository.Insert(obj);
-            return obj;
-        }
-
 
         public override ICollection<object> Get()
         {

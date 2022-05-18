@@ -26,12 +26,12 @@ namespace Snacker.Infrastructure.Repository
 
         public override ICollection<User> Select()
         {
-            return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).ToList();
+            return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).ToList();
         }
 
         public override User Select(long id)
         {
-            return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).FirstOrDefault(p => p.Id == id);
+            return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).FirstOrDefault(p => p.Id == id);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
+using Snacker.Domain.Services;
 using Snacker.Domain.Validators;
 using System;
 
@@ -10,11 +11,11 @@ namespace Snacker.API.Controllers
     [Route("api/[controller]")]
     public class ProductCategoryController : ControllerBase
     {
-        private readonly IBaseService<ProductCategory> _baseProductCategoryService;
+        private readonly IProductCategoryService _productCategoryService;
 
-        public ProductCategoryController(IBaseService<ProductCategory> baseProductCategoryService)
+        public ProductCategoryController(IProductCategoryService productCategoryService)
         {
-            _baseProductCategoryService = baseProductCategoryService;
+            _productCategoryService = productCategoryService;
         }
 
         [HttpPost]
@@ -23,7 +24,7 @@ namespace Snacker.API.Controllers
             if (productCategory == null)
                 return NotFound();
 
-            return Execute(() => _baseProductCategoryService.Add<ProductCategoryValidator>(productCategory).Id);
+            return Execute(() => _productCategoryService.Add<ProductCategoryValidator>(productCategory).Id);
         }
 
         [HttpPut]
@@ -32,18 +33,18 @@ namespace Snacker.API.Controllers
             if (productCategory == null)
                 return NotFound();
 
-            return Execute(() => _baseProductCategoryService.Update<ProductCategoryValidator>(productCategory));
+            return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(long id)
         {
             if (id == 0)
                 return NotFound();
 
             Execute(() =>
             {
-                _baseProductCategoryService.Delete(id);
+                _productCategoryService.Delete(id);
                 return true;
             });
 
@@ -53,16 +54,22 @@ namespace Snacker.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(() => _baseProductCategoryService.Get());
+            return Execute(() => _productCategoryService.Get());
+        }
+
+        [HttpGet("WithProducts")]
+        public IActionResult GetWithProducts()
+        {
+            return Execute(() => _productCategoryService.GetWithProducts());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
             if (id == 0)
                 return NotFound();
 
-            return Execute(() => _baseProductCategoryService.GetById(id));
+            return Execute(() => _productCategoryService.GetById(id));
         }
 
         private IActionResult Execute(Func<object> func)

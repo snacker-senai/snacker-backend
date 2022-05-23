@@ -70,6 +70,9 @@ namespace Snacker.API
 
             services.AddScoped<IBaseRepository<BillHasOrder>, BaseRepository<BillHasOrder>>();
             services.AddScoped<IBaseService<BillHasOrder>, BaseService<BillHasOrder>>();
+
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

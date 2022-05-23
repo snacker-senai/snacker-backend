@@ -36,7 +36,7 @@ namespace Snacker.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(long id)
         {
             if (id == 0)
                 return NotFound();
@@ -57,7 +57,7 @@ namespace Snacker.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
             if (id == 0)
                 return NotFound();

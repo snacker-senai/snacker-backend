@@ -3,9 +3,9 @@ using Snacker.Domain.Entities;
 
 namespace Snacker.Domain.Validators
 {
-    public class ProductValidator : AbstractValidator<Product>
+    public class RestaurantValidator : AbstractValidator<Restaurant>
     {
-        public ProductValidator()
+        public RestaurantValidator()
         {
             RuleFor(c => c.Name)
                             .NotEmpty().WithMessage("Please enter the name.")
@@ -15,21 +15,13 @@ namespace Snacker.Domain.Validators
                            .NotEmpty().WithMessage("Please enter the description.")
                            .NotNull().WithMessage("Please enter the description.");
 
-            RuleFor(c => c.Price)
-                           .NotEmpty().WithMessage("Please enter the price.")
-                           .NotNull().WithMessage("Please enter the price.");
+            RuleFor(c => c.Address)
+                           .NotEmpty().WithMessage("Please enter the address.")
+                           .NotNull().WithMessage("Please enter the address.");
 
-            RuleFor(c => c.Image)
-                           .NotEmpty().WithMessage("Please enter the image.")
-                           .NotNull().WithMessage("Please enter the image.");
-
-            RuleFor(c => c.ProductCategoryId)
+            RuleFor(c => c.RestaurantCategoryId)
                            .NotEmpty().WithMessage("Please enter the category.")
                            .NotNull().WithMessage("Please enter the category.");
-
-            RuleFor(c => c.RestaurantId)
-                           .NotEmpty().WithMessage("Please enter the restaurant.")
-                           .NotNull().WithMessage("Please enter the restaurant.");
         }
     }
 }

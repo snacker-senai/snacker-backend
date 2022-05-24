@@ -7,6 +7,10 @@ namespace Snacker.Domain.Validators
     {
         public OrderHasProductValidator()
         {
+            RuleFor(c => c.Quantity)
+                 .NotEmpty().WithMessage("Please enter the quantity.")
+                 .NotNull().WithMessage("Please enter the quantity.");
+
             RuleFor(c => c.OrderId)
                  .NotEmpty().WithMessage("Please enter the order.")
                  .NotNull().WithMessage("Please enter the order.");

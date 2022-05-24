@@ -13,6 +13,11 @@ namespace Snacker.Infrastructure.Mapping
             builder.HasOne(prop => prop.Order).WithMany(a => a.OrderHasProductCollection).HasForeignKey(prop => prop.OrderId);
 
             builder.HasOne(prop => prop.Product).WithMany(a => a.OrderHasProductCollection).HasForeignKey(prop => prop.ProductId);
+
+            builder.Property(prop => prop.Quantity)
+                .IsRequired()
+                .HasColumnName("quantity")
+                .HasColumnType("int");
         }
     }
 }

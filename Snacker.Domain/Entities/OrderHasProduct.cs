@@ -6,6 +6,8 @@ namespace Snacker.Domain.Entities
     public class OrderHasProduct : BaseEntity
     {
         [Required]
+        public int Quantity { get; set; }
+        [Required]
         public long OrderId { get; set; }
         [JsonIgnore]
         public Order Order { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -10,11 +11,11 @@ namespace Snacker.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IBaseService<User> _baseUserService;
+        private readonly IUserService _userService;
 
-        public UserController(IBaseService<User> baseUserService)
+        public UserController(IUserService userService)
         {
-            _baseUserService = baseUserService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -23,7 +24,7 @@ namespace Snacker.API.Controllers
             if (user == null)
                 return NotFound();
 
-            return Execute(() => _baseUserService.Add<UserValidator>(user).Id);
+            return Execute(() => _userService.Add<UserValidator>(user).Id);
         }
 
         [HttpPut]
@@ -32,7 +33,7 @@ namespace Snacker.API.Controllers
             if (user == null)
                 return NotFound();
 
-            return Execute(() => _baseUserService.Update<UserValidator>(user));
+            return Execute(() => _userService.Update<UserValidator>(user));
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +44,7 @@ namespace Snacker.API.Controllers
 
             Execute(() =>
             {
-                _baseUserService.Delete(id);
+                _userService.Delete(id);
                 return true;
             });
 
@@ -53,7 +54,7 @@ namespace Snacker.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(() => _baseUserService.Get());
+            return Execute(() => _userService.Get());
         }
 
         [HttpGet("{id}")]
@@ -62,7 +63,17 @@ namespace Snacker.API.Controllers
             if (id == 0)
                 return NotFound();
 
-            return Execute(() => _baseUserService.GetById(id));
+            return Execute(() => _userService.GetById(id));
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody] LoginDTO login)
+        {
+            var token = _userService.Login(login.Email, login.Password);
+            if (token == null)
+                return NotFound("Incorrect username or password.");
+
+            return Ok(token);
         }
 
         private IActionResult Execute(Func<object> func)

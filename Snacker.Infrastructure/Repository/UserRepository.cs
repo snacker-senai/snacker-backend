@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Snacker.Domain.Entities;
+using Snacker.Domain.Interfaces;
 using Snacker.Infrastructure.Context;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Snacker.Infrastructure.Repository
 {
-    public class UserRepository : BaseRepository<User>
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(MySqlContext mySqlContext) : base(mySqlContext)
         {
@@ -32,6 +33,11 @@ namespace Snacker.Infrastructure.Repository
         public override User Select(long id)
         {
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).FirstOrDefault(p => p.Id == id);
+        }
+
+        public User ValidateUser(string email, string password)
+        {
+            return _mySqlContext.Set<User>().Include(p => p.UserType).Where(p => p.Email.ToLower() == email.ToLower() && p.Password == password).FirstOrDefault();
         }
     }
 }

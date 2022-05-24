@@ -33,7 +33,8 @@ namespace Snacker.Domain.Services
                         Name = product.Name,
                         Description = product.Description,
                         Image = product.Image,
-                        Price = product.Price
+                        Price = product.Price,
+                        Active = product.Active,
                     });
                 }
                 result.Add(dto);

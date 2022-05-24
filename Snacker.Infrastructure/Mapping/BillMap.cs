@@ -11,6 +11,11 @@ namespace Snacker.Infrastructure.Mapping
             builder.ToTable("bill");
 
             builder.HasKey(prop => prop.Id);
+
+            builder.Property(prop => prop.Active)
+                .IsRequired()
+                .HasColumnName("active")
+                .HasColumnType("boolean");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Snacker.Domain.Services
                     Description = item.Description,
                     Price = item.Price,
                     Image = item.Image,
+                    Active = item.Active,
                     ProductCategory = new ProductCategoryDTO()
                     {
                         Name = item.ProductCategory.Name
@@ -67,6 +68,7 @@ namespace Snacker.Domain.Services
                 Description = item.Description,
                 Price = item.Price,
                 Image = item.Image,
+                Active = item.Active,
                 ProductCategory = new ProductCategoryDTO()
                 {
                     Name = item.ProductCategory.Name

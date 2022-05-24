@@ -10,5 +10,6 @@
         public long ProductCategoryId { get; set; }
         public RestaurantDTO Restaurant { get; set; }
         public long RestaurantId { get; set; }
+        public bool Active { get; set; }
     }
 }

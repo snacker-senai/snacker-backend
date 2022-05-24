@@ -4,14 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace Snacker.Domain.Entities
 {
-    public class Table : BaseEntity
+    public class OrderStatus : BaseEntity
     {
         [Required]
-        public string Number { get; set; }
-        [Required]
-        public long RestaurantId { get; set; }
-        [JsonIgnore]
-        public Restaurant Restaurant { get; set; }
+        public string Name { get; set; }
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
     }

@@ -8,8 +8,12 @@ namespace Snacker.Domain.Entities
     {
         [Required]
         public long TableId { get; set; }
+        [Required]
+        public long OrderStatusId { get; set; }
         [JsonIgnore]
         public Table Table { get; set; }
+        [JsonIgnore]
+        public OrderStatus OrderStatus { get; set; }
         [JsonIgnore]
         public ICollection<OrderHasProduct> OrderHasProductCollection { get; set; }
 

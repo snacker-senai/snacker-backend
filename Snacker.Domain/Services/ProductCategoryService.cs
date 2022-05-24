@@ -2,6 +2,7 @@
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Snacker.Domain.Services
 {
@@ -19,25 +20,30 @@ namespace Snacker.Domain.Services
             var result = new List<object>();
             foreach (var item in itens)
             {
-                var dto = new ProductCategoryWithRelationshipDTO()
+                if (item.Products.Any())
                 {
-                    Id = item.Id,
-                    Name = item.Name
-                };
-                foreach (var product in item.Products)
-                {
-                    dto.Products = new List<ProductWithoutRelationshipDTO>();
-                    dto.Products.Add(new ProductWithoutRelationshipDTO
+                    var dto = new ProductCategoryWithRelationshipDTO()
                     {
-                        Id = product.Id,
-                        Name = product.Name,
-                        Description = product.Description,
-                        Image = product.Image,
-                        Price = product.Price,
-                        Active = product.Active,
-                    });
+                        Id = item.Id,
+                        Name = item.Name
+                    };
+                    foreach (var product in item.Products)
+                    {
+                        dto.Products = new List<ProductWithoutRelationshipDTO>
+                        {
+                            new ProductWithoutRelationshipDTO
+                            {
+                                Id = product.Id,
+                                Name = product.Name,
+                                Description = product.Description,
+                                Image = product.Image,
+                                Price = product.Price,
+                                Active = product.Active,
+                            }
+                        };
+                    }
+                    result.Add(dto);
                 }
-                result.Add(dto);
             }
             return result;
         }

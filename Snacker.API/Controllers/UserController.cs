@@ -71,7 +71,7 @@ namespace Snacker.API.Controllers
         {
             var token = _userService.Login(login.Email, login.Password);
             if (token == null)
-                return NotFound("Incorrect username or password.");
+                return NotFound("Incorrect email or password.");
 
             return Ok(token);
         }

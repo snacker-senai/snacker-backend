@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
-using Snacker.Domain.Services;
 using Snacker.Domain.Validators;
 using System;
 

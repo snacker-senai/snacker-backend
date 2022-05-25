@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
@@ -64,6 +65,27 @@ namespace Snacker.API.Controllers
                 return NotFound();
 
             return Execute(() => _userService.GetById(id));
+        }
+
+        [Authorize]
+        [HttpGet("FromRestaurant")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_userService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _userService.GetFromRestaurant(restaurantId));
+        }
+
+        [Authorize]
+        [HttpGet("FromRestaurant/{id}")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization, long id)
+        {
+            if (id == 0)
+                return NotFound();
+
+            var restaurantId = long.Parse(_userService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _userService.GetFromRestaurantById(restaurantId, id));
         }
 
         [HttpPost("Login")]

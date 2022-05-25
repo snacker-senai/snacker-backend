@@ -77,15 +77,15 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("FromRestaurant/{id}")]
-        public IActionResult GetFromRestaurant([FromHeader] string authorization, long id)
+        [HttpGet("{userId}/FromRestaurant")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization, long userId)
         {
-            if (id == 0)
+            if (userId == 0)
                 return NotFound();
 
             var restaurantId = long.Parse(_userService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
-            return Execute(() => _userService.GetFromRestaurantById(restaurantId, id));
+            return Execute(() => _userService.GetFromRestaurantById(restaurantId, userId));
         }
 
         [HttpPost("Login")]

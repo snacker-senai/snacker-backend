@@ -1,9 +1,21 @@
-﻿using System;
+﻿using Snacker.Domain.Entities;
+using System;
 
 namespace Snacker.Domain.DTOs
 {
     public class PersonDTO
     {
+        public PersonDTO(Person person)
+        {
+            Name = person.Name;
+            BirthDate = person.BirthDate;
+            Phone = person.Phone;
+            Document = person.Document;
+            Address = new AddressDTO(person.Address);
+            AddressId = person.AddressId;
+            Restaurant = new RestaurantDTO(person.Restaurant);
+            RestaurantId = person.RestaurantId;
+        }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public string Phone { get; set; }

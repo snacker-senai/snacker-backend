@@ -21,27 +21,7 @@ namespace Snacker.Domain.Services
             var result = new List<object>();
             foreach (var item in itens)
             {
-                var dto = new RestaurantDTO()
-                {
-
-                    Name = item.Name,
-                    Description = item.Description,
-                    Address = new AddressDTO()
-                    {
-                        Street = item.Address.Street,
-                        City = item.Address.City,
-                        Country = item.Address.Country,
-                        Number = item.Address.Number,
-                        CEP = item.Address.CEP,
-                        District = item.Address.District
-                    },
-                    AddressId = item.AddressId,
-                    RestaurantCategory = new RestaurantCategoryDTO()
-                    {
-                        Name = item.RestaurantCategory.Name,
-                    },
-                    RestaurantCategoryId = item.RestaurantCategoryId,
-                };
+                var dto = new RestaurantDTO(item);
                 result.Add(dto);
             }
             return result;
@@ -50,27 +30,7 @@ namespace Snacker.Domain.Services
         public override object GetById(long id)
         {
             var item = _restaurantRepository.Select(id);
-            return new RestaurantDTO()
-            {
-
-                Name = item.Name,
-                Description = item.Description,
-                Address = new AddressDTO()
-                {
-                    Street = item.Address.Street,
-                    City = item.Address.City,
-                    Country = item.Address.Country,
-                    Number = item.Address.Number,
-                    CEP = item.Address.CEP,
-                    District = item.Address.District
-                },
-                AddressId = item.AddressId,
-                RestaurantCategory = new RestaurantCategoryDTO()
-                {
-                    Name = item.RestaurantCategory.Name,
-                },
-                RestaurantCategoryId = item.RestaurantCategoryId,
-            };
+            return new RestaurantDTO(item);
         }
     }
 }

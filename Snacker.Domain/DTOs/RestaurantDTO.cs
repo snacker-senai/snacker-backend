@@ -1,7 +1,18 @@
-﻿namespace Snacker.Domain.DTOs
+﻿using Snacker.Domain.Entities;
+
+namespace Snacker.Domain.DTOs
 {
     public class RestaurantDTO
     {
+        public RestaurantDTO(Restaurant restaurant)
+        {
+            Name = restaurant.Name;
+            Description = restaurant.Description;
+            Address = new AddressDTO(restaurant.Address);
+            AddressId = restaurant.AddressId;
+            RestaurantCategory = new RestaurantCategoryDTO(restaurant.RestaurantCategory);
+            RestaurantCategoryId = restaurant.RestaurantCategoryId;
+        }
         public string Name { get; set; }
         public string Description { get; set; }
         public AddressDTO Address { get; set; }

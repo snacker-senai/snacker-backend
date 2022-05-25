@@ -19,41 +19,7 @@ namespace Snacker.Domain.Services
             var result = new List<object>();
             foreach (var item in itens)
             {
-                var dto = new ProductDTO()
-                {
-                    Name = item.Name,
-                    Description = item.Description,
-                    Price = item.Price,
-                    Image = item.Image,
-                    Active = item.Active,
-                    ProductCategory = new ProductCategoryDTO()
-                    {
-                        Name = item.ProductCategory.Name
-                    },
-                    ProductCategoryId = item.ProductCategoryId,
-                    Restaurant = new RestaurantDTO()
-                    {
-                        Name = item.Restaurant.Name,
-                        Description = item.Restaurant.Description,
-                        Address = new AddressDTO()
-                        {
-                            CEP = item.Restaurant.Address.CEP,
-                            City = item.Restaurant.Address.City,
-                            Country = item.Restaurant.Address.Country,
-                            District = item.Restaurant.Address.District,
-                            Number = item.Restaurant.Address.Number,
-                            Street = item.Restaurant.Address.Street
-                        },
-                        AddressId = item.Restaurant.AddressId,
-                        RestaurantCategory = new RestaurantCategoryDTO()
-                        {
-                            Name = item.Restaurant.RestaurantCategory.Name
-                        },
-                        RestaurantCategoryId = item.Restaurant.RestaurantCategoryId
-                    },
-                    RestaurantId = item.RestaurantId
-
-                };
+                var dto = new ProductDTO(item);
                 result.Add(dto);
             }
             return result;
@@ -62,40 +28,7 @@ namespace Snacker.Domain.Services
         public override object GetById(long id)
         {
             var item = _productRepository.Select(id);
-            return new ProductDTO()
-            {
-                Name = item.Name,
-                Description = item.Description,
-                Price = item.Price,
-                Image = item.Image,
-                Active = item.Active,
-                ProductCategory = new ProductCategoryDTO()
-                {
-                    Name = item.ProductCategory.Name
-                },
-                ProductCategoryId = item.ProductCategoryId,
-                Restaurant = new RestaurantDTO()
-                {
-                    Name = item.Restaurant.Name,
-                    Description = item.Restaurant.Description,
-                    Address = new AddressDTO()
-                    {
-                        CEP = item.Restaurant.Address.CEP,
-                        City = item.Restaurant.Address.City,
-                        Country = item.Restaurant.Address.Country,
-                        District = item.Restaurant.Address.District,
-                        Number = item.Restaurant.Address.Number,
-                        Street = item.Restaurant.Address.Street
-                    },
-                    AddressId = item.Restaurant.AddressId,
-                    RestaurantCategory = new RestaurantCategoryDTO()
-                    {
-                        Name = item.Restaurant.RestaurantCategory.Name
-                    },
-                    RestaurantCategoryId = item.Restaurant.RestaurantCategoryId
-                },
-                RestaurantId = item.RestaurantId
-            };
+            return new ProductDTO(item);
         }
     }
 }

@@ -25,55 +25,7 @@ namespace Snacker.Domain.Services
             var result = new List<object>();
             foreach (var item in itens)
             {
-                var dto = new UserDTO()
-                {
-                    Email = item.Email,
-                    Password = item.Password,
-                    Person = new PersonDTO()
-                    {
-                        Name = item.Person.Name,
-                        BirthDate = item.Person.BirthDate,
-                        Phone = item.Person.Phone,
-                        Document = item.Person.Document,
-                        Address = new AddressDTO()
-                        {
-                            CEP = item.Person.Address.CEP,
-                            City = item.Person.Address.City,
-                            Country = item.Person.Address.Country,
-                            District = item.Person.Address.District,
-                            Number = item.Person.Address.Number,
-                            Street = item.Person.Address.Street
-                        },
-                        AddressId = item.Person.AddressId,
-                        Restaurant = new RestaurantDTO()
-                        {
-                            Name = item.Person.Restaurant.Name,
-                            Description = item.Person.Restaurant.Description,
-                            Address = new AddressDTO()
-                            {
-                                CEP = item.Person.Restaurant.Address.CEP,
-                                City = item.Person.Restaurant.Address.City,
-                                Country = item.Person.Restaurant.Address.Country,
-                                District = item.Person.Restaurant.Address.District,
-                                Number = item.Person.Restaurant.Address.Number,
-                                Street = item.Person.Restaurant.Address.Street
-                            },
-                            AddressId = item.Person.Restaurant.AddressId,
-                            RestaurantCategory = new RestaurantCategoryDTO()
-                            {
-                                Name = item.Person.Restaurant.RestaurantCategory.Name
-                            },
-                            RestaurantCategoryId = item.Person.Restaurant.RestaurantCategoryId
-                        },
-                        RestaurantId = item.Person.RestaurantId
-                    },
-                    PersonId = item.PersonId,
-                    UserType = new UserTypeDTO()
-                    {
-                        Name = item.UserType.Name
-                    },
-                    UserTypeId = item.UserTypeId
-                };
+                var dto = new UserDTO(item);
                 result.Add(dto);
             }
             return result;
@@ -82,55 +34,7 @@ namespace Snacker.Domain.Services
         public override object GetById(long id)
         {
             var item = _userRepository.Select(id);
-            return new UserDTO()
-            {
-                Email = item.Email,
-                Password = item.Password,
-                Person = new PersonDTO()
-                {
-                    Name = item.Person.Name,
-                    BirthDate = item.Person.BirthDate,
-                    Phone = item.Person.Phone,
-                    Document = item.Person.Document,
-                    Address = new AddressDTO()
-                    {
-                        CEP = item.Person.Address.CEP,
-                        City = item.Person.Address.City,
-                        Country = item.Person.Address.Country,
-                        District = item.Person.Address.District,
-                        Number = item.Person.Address.Number,
-                        Street = item.Person.Address.Street
-                    },
-                    AddressId = item.Person.AddressId,
-                    Restaurant = new RestaurantDTO()
-                    {
-                        Name = item.Person.Restaurant.Name,
-                        Description = item.Person.Restaurant.Description,
-                        Address = new AddressDTO()
-                        {
-                            CEP = item.Person.Restaurant.Address.CEP,
-                            City = item.Person.Restaurant.Address.City,
-                            Country = item.Person.Restaurant.Address.Country,
-                            District = item.Person.Restaurant.Address.District,
-                            Number = item.Person.Restaurant.Address.Number,
-                            Street = item.Person.Restaurant.Address.Street
-                        },
-                        AddressId = item.Person.Restaurant.AddressId,
-                        RestaurantCategory = new RestaurantCategoryDTO()
-                        {
-                            Name = item.Person.Restaurant.RestaurantCategory.Name
-                        },
-                        RestaurantCategoryId = item.Person.Restaurant.RestaurantCategoryId
-                    },
-                    RestaurantId = item.Person.RestaurantId
-                },
-                PersonId = item.PersonId,
-                UserType = new UserTypeDTO()
-                {
-                    Name = item.UserType.Name
-                },
-                UserTypeId = item.UserTypeId
-            };
+            return new UserDTO(item);
         }
 
         public ICollection<object> GetFromRestaurant(long restaurantId)
@@ -139,55 +43,7 @@ namespace Snacker.Domain.Services
             var result = new List<object>();
             foreach (var item in itens)
             {
-                var dto = new UserDTO()
-                {
-                    Email = item.Email,
-                    Password = item.Password,
-                    Person = new PersonDTO()
-                    {
-                        Name = item.Person.Name,
-                        BirthDate = item.Person.BirthDate,
-                        Phone = item.Person.Phone,
-                        Document = item.Person.Document,
-                        Address = new AddressDTO()
-                        {
-                            CEP = item.Person.Address.CEP,
-                            City = item.Person.Address.City,
-                            Country = item.Person.Address.Country,
-                            District = item.Person.Address.District,
-                            Number = item.Person.Address.Number,
-                            Street = item.Person.Address.Street
-                        },
-                        AddressId = item.Person.AddressId,
-                        Restaurant = new RestaurantDTO()
-                        {
-                            Name = item.Person.Restaurant.Name,
-                            Description = item.Person.Restaurant.Description,
-                            Address = new AddressDTO()
-                            {
-                                CEP = item.Person.Restaurant.Address.CEP,
-                                City = item.Person.Restaurant.Address.City,
-                                Country = item.Person.Restaurant.Address.Country,
-                                District = item.Person.Restaurant.Address.District,
-                                Number = item.Person.Restaurant.Address.Number,
-                                Street = item.Person.Restaurant.Address.Street
-                            },
-                            AddressId = item.Person.Restaurant.AddressId,
-                            RestaurantCategory = new RestaurantCategoryDTO()
-                            {
-                                Name = item.Person.Restaurant.RestaurantCategory.Name
-                            },
-                            RestaurantCategoryId = item.Person.Restaurant.RestaurantCategoryId
-                        },
-                        RestaurantId = item.Person.RestaurantId
-                    },
-                    PersonId = item.PersonId,
-                    UserType = new UserTypeDTO()
-                    {
-                        Name = item.UserType.Name
-                    },
-                    UserTypeId = item.UserTypeId
-                };
+                var dto = new UserDTO(item);
                 result.Add(dto);
             }
             return result;
@@ -196,55 +52,7 @@ namespace Snacker.Domain.Services
         public object GetFromRestaurantById(long restaurantId, long id)
         {
             var item = _userRepository.SelectFromRestaurantById(restaurantId, id);
-            return new UserDTO()
-            {
-                Email = item.Email,
-                Password = item.Password,
-                Person = new PersonDTO()
-                {
-                    Name = item.Person.Name,
-                    BirthDate = item.Person.BirthDate,
-                    Phone = item.Person.Phone,
-                    Document = item.Person.Document,
-                    Address = new AddressDTO()
-                    {
-                        CEP = item.Person.Address.CEP,
-                        City = item.Person.Address.City,
-                        Country = item.Person.Address.Country,
-                        District = item.Person.Address.District,
-                        Number = item.Person.Address.Number,
-                        Street = item.Person.Address.Street
-                    },
-                    AddressId = item.Person.AddressId,
-                    Restaurant = new RestaurantDTO()
-                    {
-                        Name = item.Person.Restaurant.Name,
-                        Description = item.Person.Restaurant.Description,
-                        Address = new AddressDTO()
-                        {
-                            CEP = item.Person.Restaurant.Address.CEP,
-                            City = item.Person.Restaurant.Address.City,
-                            Country = item.Person.Restaurant.Address.Country,
-                            District = item.Person.Restaurant.Address.District,
-                            Number = item.Person.Restaurant.Address.Number,
-                            Street = item.Person.Restaurant.Address.Street
-                        },
-                        AddressId = item.Person.Restaurant.AddressId,
-                        RestaurantCategory = new RestaurantCategoryDTO()
-                        {
-                            Name = item.Person.Restaurant.RestaurantCategory.Name
-                        },
-                        RestaurantCategoryId = item.Person.Restaurant.RestaurantCategoryId
-                    },
-                    RestaurantId = item.Person.RestaurantId
-                },
-                PersonId = item.PersonId,
-                UserType = new UserTypeDTO()
-                {
-                    Name = item.UserType.Name
-                },
-                UserTypeId = item.UserTypeId
-            };
+            return new UserDTO(item);
         }
 
         public string GetTokenValue(string token, string claimType)

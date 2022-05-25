@@ -1,7 +1,18 @@
-﻿namespace Snacker.Domain.DTOs
+﻿using Snacker.Domain.Entities;
+
+namespace Snacker.Domain.DTOs
 {
     public class AddressDTO
     {
+        public AddressDTO(Address address)
+        {
+            CEP = address.CEP;
+            City = address.City;
+            Country = address.Country;
+            District = address.District;
+            Number = address.Number;
+            Street = address.Street;
+        }
         public string CEP { get; set; }
         public string Street { get; set; }
         public string District { get; set; }

@@ -22,26 +22,7 @@ namespace Snacker.Domain.Services
             {
                 if (item.Products.Any())
                 {
-                    var dto = new ProductCategoryWithRelationshipDTO()
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    };
-                    foreach (var product in item.Products)
-                    {
-                        dto.Products = new List<ProductWithoutRelationshipDTO>
-                        {
-                            new ProductWithoutRelationshipDTO
-                            {
-                                Id = product.Id,
-                                Name = product.Name,
-                                Description = product.Description,
-                                Image = product.Image,
-                                Price = product.Price,
-                                Active = product.Active,
-                            }
-                        };
-                    }
+                    var dto = new ProductCategoryWithRelationshipDTO(item);
                     result.Add(dto);
                 }
             }

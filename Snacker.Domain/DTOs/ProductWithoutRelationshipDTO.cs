@@ -2,7 +2,7 @@
 
 namespace Snacker.Domain.DTOs
 {
-    public class ProductWithoutRelationshipDTO
+    public class ProductWithoutRelationshipDTO : BaseDTO
     {
         public ProductWithoutRelationshipDTO(Product product)
         {
@@ -13,7 +13,6 @@ namespace Snacker.Domain.DTOs
             Image = product.Image;
             Active = product.Active;
         }
-        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

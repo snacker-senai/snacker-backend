@@ -3,10 +3,11 @@ using System;
 
 namespace Snacker.Domain.DTOs
 {
-    public class PersonDTO
+    public class PersonDTO : BaseDTO
     {
         public PersonDTO(Person person)
         {
+            Id = person.Id;
             Name = person.Name;
             BirthDate = person.BirthDate;
             Phone = person.Phone;

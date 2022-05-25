@@ -2,10 +2,11 @@
 
 namespace Snacker.Domain.DTOs
 {
-    public class UserDTO
+    public class UserDTO : BaseDTO
     {
         public UserDTO(User user)
         {
+            Id = user.Id;
             Email = user.Email;
             Password = user.Password;
             Person = new PersonDTO(user.Person);

@@ -2,10 +2,11 @@
 
 namespace Snacker.Domain.DTOs
 {
-    public class AddressDTO
+    public class AddressDTO : BaseDTO
     {
         public AddressDTO(Address address)
         {
+            Id = address.Id;
             CEP = address.CEP;
             City = address.City;
             Country = address.Country;

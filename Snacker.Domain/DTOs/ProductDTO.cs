@@ -2,10 +2,11 @@
 
 namespace Snacker.Domain.DTOs
 {
-    public class ProductDTO
+    public class ProductDTO : BaseDTO
     {
         public ProductDTO(Product product)
         {
+            Id = product.Id;
             Name = product.Name;
             Description = product.Description;
             Price = product.Price;

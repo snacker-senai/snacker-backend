@@ -2,10 +2,11 @@
 
 namespace Snacker.Domain.DTOs
 {
-    public class RestaurantDTO
+    public class RestaurantDTO : BaseDTO
     {
         public RestaurantDTO(Restaurant restaurant)
         {
+            Id = restaurant.Id;
             Name = restaurant.Name;
             Description = restaurant.Description;
             Address = new AddressDTO(restaurant.Address);

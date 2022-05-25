@@ -120,6 +120,11 @@ namespace Snacker.API
 
             app.UseRouting();
 
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true));
+
             app.UseAuthentication();
 
             app.UseAuthorization();

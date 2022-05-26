@@ -12,9 +12,34 @@ namespace Snacker.Domain.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        public AuthService(IUserRepository userRepository)
+        private readonly IBaseRepository<Table> _tableRepository;
+        private const string key = "12D1738B9A6444BB9E04BB535E3B83C9";
+        public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository)
         {
             _userRepository = userRepository;
+            _tableRepository = tableRepository;
+        }
+
+        public object GenerateClientToken(long tableId)
+        {
+            var table = _tableRepository.Select(tableId);
+            if (table != null)
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("TableId", table.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(6),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            return null;
         }
 
         public string GetTokenValue(string token, string claimType)
@@ -29,14 +54,13 @@ namespace Snacker.Domain.Services
             if (user != null)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("12D1738B9A6444BB9E04BB535E3B83C9");
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.UserType.Name),
-                    new Claim("RestaurantId", user.Person.RestaurantId.ToString())
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.UserType.Name),
+                        new Claim("RestaurantId", user.Person.RestaurantId.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -24,5 +24,15 @@ namespace Snacker.API.Controllers
 
             return Ok(token);
         }
+
+        [HttpPost("GenerateClientToken")]
+        public IActionResult GenerateClientToken([FromBody] long tableId)
+        {
+            var token = _authService.GenerateClientToken(tableId);
+            if (token == null)
+                return NotFound("Table not found.");
+
+            return Ok(token);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -13,10 +12,12 @@ namespace Snacker.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthService _tokenService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IAuthService tokenService)
         {
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -71,7 +72,7 @@ namespace Snacker.API.Controllers
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
-            var restaurantId = long.Parse(_userService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var restaurantId = long.Parse(_tokenService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
             return Execute(() => _userService.GetFromRestaurant(restaurantId));
         }
@@ -83,19 +84,9 @@ namespace Snacker.API.Controllers
             if (userId == 0)
                 return NotFound();
 
-            var restaurantId = long.Parse(_userService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var restaurantId = long.Parse(_tokenService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
             return Execute(() => _userService.GetFromRestaurantById(restaurantId, userId));
-        }
-
-        [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginDTO login)
-        {
-            var token = _userService.Login(login.Email, login.Password);
-            if (token == null)
-                return NotFound("Incorrect email or password.");
-
-            return Ok(token);
         }
 
         private IActionResult Execute(Func<object> func)

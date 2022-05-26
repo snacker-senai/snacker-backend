@@ -13,7 +13,7 @@ namespace Snacker.Domain.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IBaseRepository<Table> _tableRepository;
-        private const string key = "12D1738B9A6444BB9E04BB535E3B83C9";
+        private readonly byte[] key = Encoding.ASCII.GetBytes("12D1738B9A6444BB9E04BB535E3B83C9");
         public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository)
         {
             _userRepository = userRepository;

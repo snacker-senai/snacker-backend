@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.DTOs;
+using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
+using System;
 
 namespace Snacker.API.Controllers
 {
@@ -9,10 +12,12 @@ namespace Snacker.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IBaseService<Table> _baseTableService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IBaseService<Table> baseTableService)
         {
             _authService = authService;
+            _baseTableService = baseTableService;
         }
 
         [HttpPost("Login")]
@@ -33,6 +38,29 @@ namespace Snacker.API.Controllers
                 return NotFound("Table not found.");
 
             return Ok(token);
+        }
+
+        [Authorize]
+        [HttpGet("ClientSessionInfo")]
+        public IActionResult GetClientSessionInfo([FromHeader] string authorization)
+        {
+            var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
+
+            return Execute(() => _baseTableService.GetById(tableId));
+        }
+
+        private IActionResult Execute(Func<object> func)
+        {
+            try
+            {
+                var result = func();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

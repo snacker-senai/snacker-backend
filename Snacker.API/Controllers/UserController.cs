@@ -12,12 +12,12 @@ namespace Snacker.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IAuthService _tokenService;
+        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService, IAuthService tokenService)
+        public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
-            _tokenService = tokenService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace Snacker.API.Controllers
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
-            var restaurantId = long.Parse(_tokenService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
             return Execute(() => _userService.GetFromRestaurant(restaurantId));
         }
@@ -84,7 +84,7 @@ namespace Snacker.API.Controllers
             if (userId == 0)
                 return NotFound();
 
-            var restaurantId = long.Parse(_tokenService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
             return Execute(() => _userService.GetFromRestaurantById(restaurantId, userId));
         }

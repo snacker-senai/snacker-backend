@@ -16,8 +16,9 @@ namespace Snacker.Domain.Entities
         public OrderStatus OrderStatus { get; set; }
         [JsonIgnore]
         public ICollection<OrderHasProduct> OrderHasProductCollection { get; set; }
-
         [JsonIgnore]
-        public ICollection<BillHasOrder> BillHasOrderCollection { get; set; }
+        public Bill Bill { get; set; }
+        [Required]
+        public long BillId { get; set; }
     }
 }

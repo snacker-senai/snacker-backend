@@ -21,6 +21,11 @@ namespace Snacker.Infrastructure.Mapping
             builder.Property(prop => prop.OrderStatusId)
                 .IsRequired()
                 .HasColumnName("order_status_id");
+
+            builder.HasOne(prop => prop.Bill).WithMany(a => a.Orders).HasForeignKey(prop => prop.BillId);
+            builder.Property(prop => prop.BillId)
+                .IsRequired()
+                .HasColumnName("bill_id");
         }
     }
 }

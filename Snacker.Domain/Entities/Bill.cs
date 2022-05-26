@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Snacker.Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace Snacker.Domain.Entities
     {
         [Required]
         public bool Active { get; set; }
-        [Required]
-        public ICollection<BillHasOrder> BillHasOrderCollection { get; set; }
+        [JsonIgnore]
+        public ICollection<Order> Orders { get; set; }
     }
 }

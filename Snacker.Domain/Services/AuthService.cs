@@ -14,16 +14,30 @@ namespace Snacker.Domain.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IBaseRepository<Table> _tableRepository;
+        private readonly IBillRepository _billRepository;
         private readonly byte[] key = Encoding.ASCII.GetBytes("12D1738B9A6444BB9E04BB535E3B83C9");
-        public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository)
+
+        public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository, IBillRepository billRepository)
         {
             _userRepository = userRepository;
             _tableRepository = tableRepository;
+            _billRepository = billRepository;
         }
 
         public object GenerateClientToken(long tableId)
         {
             var table = _tableRepository.Select(tableId);
+            var bills = _billRepository.SelectWhereActive();
+            long billId;
+            if (bills.Any())
+            {
+                billId = bills.First().Id;
+            }
+            else
+            {
+                _billRepository.Insert(new Bill { Active = true });
+                billId = _billRepository.SelectWhereActive().First().Id;
+            }
             if (table != null)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -33,7 +47,8 @@ namespace Snacker.Domain.Services
                     {
                         new Claim(ClaimTypes.Role, "Cliente"),
                         new Claim("TableId", table.Id.ToString()),
-                        new Claim("RestaurantId", table.Restaurant.Id.ToString())
+                        new Claim("RestaurantId", table.RestaurantId.ToString()),
+                        new Claim("BillId", billId.ToString())
                     }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

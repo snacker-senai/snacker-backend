@@ -98,6 +98,9 @@ namespace Snacker.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
+
+            services.AddScoped<IBillRepository, BillRepository>();
+
             services.AddScoped<IAuthService, AuthService>();
         }
 

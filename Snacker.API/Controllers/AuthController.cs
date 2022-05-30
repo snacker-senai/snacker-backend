@@ -40,7 +40,7 @@ namespace Snacker.API.Controllers
             return Ok(token);
         }
 
-        [Authorize(Roles = "Cliente")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("ClientSessionInfo")]
         public IActionResult GetClientSessionInfo([FromHeader] string authorization)
         {

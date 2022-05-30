@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using System;
@@ -32,7 +33,7 @@ namespace Snacker.Domain.Services
                     {
                         new Claim(ClaimTypes.Role, "Cliente"),
                         new Claim("TableId", table.Id.ToString())
-                    }),
+                    }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
@@ -62,7 +63,7 @@ namespace Snacker.Domain.Services
                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.Role, user.UserType.Name),
                         new Claim("RestaurantId", user.Person.RestaurantId.ToString())
-                    }),
+                    }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };

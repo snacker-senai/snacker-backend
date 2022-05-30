@@ -30,6 +30,7 @@ namespace Snacker.Domain.Services
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
+                        new Claim(ClaimTypes.Role, "Cliente"),
                         new Claim("TableId", table.Id.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddHours(6),

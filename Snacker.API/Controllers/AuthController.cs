@@ -44,9 +44,10 @@ namespace Snacker.API.Controllers
         [HttpGet("ClientSessionInfo")]
         public IActionResult GetClientSessionInfo([FromHeader] string authorization)
         {
-            var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
+            return Ok();
+            //var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
 
-            return Execute(() => _baseTableService.GetById(tableId));
+            //return Execute(() => _baseTableService.GetById(tableId));
         }
 
         private IActionResult Execute(Func<object> func)

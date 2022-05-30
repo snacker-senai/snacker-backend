@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Snacker.Domain.Entities;
+﻿using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Infrastructure.Context;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace Snacker.Infrastructure.Repository
         {
         }
 
-        public ICollection<Bill> SelectWhereActive()
+        public ICollection<Bill> SelectActiveFromTable(long tableId)
         {
             return _mySqlContext.Set<Bill>().Where(p => p.Active).ToList();
         }

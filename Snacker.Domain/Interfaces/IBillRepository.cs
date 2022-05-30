@@ -5,6 +5,6 @@ namespace Snacker.Domain.Interfaces
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
-        ICollection<Bill> SelectWhereActive();
+        ICollection<Bill> SelectActiveFromTable(long tableId);
     }
 }

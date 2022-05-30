@@ -14,5 +14,7 @@ namespace Snacker.Domain.Entities
         public Restaurant Restaurant { get; set; }
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public ICollection<Bill> Bills { get; set; }
     }
 }

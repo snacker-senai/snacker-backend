@@ -27,7 +27,7 @@ namespace Snacker.Domain.Services
         public object GenerateClientToken(long tableId)
         {
             var table = _tableRepository.Select(tableId);
-            var bills = _billRepository.SelectWhereActive();
+            var bills = _billRepository.SelectActiveFromTable(table.Id);
             long billId;
             if (bills.Any())
             {
@@ -35,8 +35,8 @@ namespace Snacker.Domain.Services
             }
             else
             {
-                _billRepository.Insert(new Bill { Active = true });
-                billId = _billRepository.SelectWhereActive().First().Id;
+                _billRepository.Insert(new Bill { Active = true, TableId = table.Id });
+                billId = _billRepository.SelectActiveFromTable(table.Id).First().Id;
             }
             if (table != null)
             {

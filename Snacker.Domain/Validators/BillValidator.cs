@@ -7,7 +7,9 @@ namespace Snacker.Domain.Validators
     {
         public BillValidator()
         {
-
+            RuleFor(c => c.TableId)
+                 .NotEmpty().WithMessage("Please enter the table.")
+                 .NotNull().WithMessage("Please enter the table.");
         }
     }
 }

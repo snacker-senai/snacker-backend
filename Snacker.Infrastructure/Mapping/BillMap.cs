@@ -16,6 +16,11 @@ namespace Snacker.Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnName("active")
                 .HasColumnType("boolean");
+
+            builder.HasOne(prop => prop.Table).WithMany(a => a.Bills).HasForeignKey(prop => prop.TableId);
+            builder.Property(prop => prop.TableId)
+                .IsRequired()
+                .HasColumnName("table_id");
         }
     }
 }

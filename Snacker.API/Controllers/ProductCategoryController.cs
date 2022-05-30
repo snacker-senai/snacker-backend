@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -11,10 +12,12 @@ namespace Snacker.API.Controllers
     public class ProductCategoryController : ControllerBase
     {
         private readonly IProductCategoryService _productCategoryService;
+        private readonly IAuthService _authService;
 
-        public ProductCategoryController(IProductCategoryService productCategoryService)
+        public ProductCategoryController(IProductCategoryService productCategoryService, IAuthService authService)
         {
             _productCategoryService = productCategoryService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -56,10 +59,13 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Get());
         }
 
+        [Authorize(Roles = "Cliente")]
         [HttpGet("WithProducts")]
-        public IActionResult GetWithProducts()
+        public IActionResult GetWithProducts([FromHeader] string authorization)
         {
-            return Execute(() => _productCategoryService.GetWithProducts());
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productCategoryService.GetWithProducts(restaurantId));
         }
 
         [HttpGet("{id}")]

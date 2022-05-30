@@ -32,7 +32,8 @@ namespace Snacker.Domain.Services
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim(ClaimTypes.Role, "Cliente"),
-                        new Claim("TableId", table.Id.ToString())
+                        new Claim("TableId", table.Id.ToString()),
+                        new Claim("RestaurantId", table.Restaurant.Id.ToString())
                     }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

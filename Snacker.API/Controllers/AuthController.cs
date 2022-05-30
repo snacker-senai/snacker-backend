@@ -30,14 +30,11 @@ namespace Snacker.API.Controllers
             return Ok(token);
         }
 
+        [Authorize(Roles = "Admin, Gerente, Garçom")]
         [HttpPost("GenerateClientToken")]
         public IActionResult GenerateClientToken([FromBody] long tableId)
         {
-            var token = _authService.GenerateClientToken(tableId);
-            if (token == null)
-                return NotFound("Table not found.");
-
-            return Ok(token);
+            return Execute(() => _authService.GenerateClientToken(tableId));
         }
 
         [Authorize(Roles = "Cliente")]

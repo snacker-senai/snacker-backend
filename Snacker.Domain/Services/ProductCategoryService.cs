@@ -14,9 +14,9 @@ namespace Snacker.Domain.Services
             _productCategoryRepository = productCategoryRepository;
         }
 
-        public ICollection<object> GetWithProducts()
+        public ICollection<object> GetWithProducts(long restaurantId)
         {
-            var itens = _productCategoryRepository.SelectWithProducts();
+            var itens = _productCategoryRepository.SelectWithProducts(restaurantId);
             var result = new List<object>();
             foreach (var item in itens)
             {

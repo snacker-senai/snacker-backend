@@ -50,7 +50,7 @@ namespace Snacker.Domain.Services
                         new Claim("RestaurantId", table.RestaurantId.ToString()),
                         new Claim("BillId", billId.ToString())
                     }, JwtBearerDefaults.AuthenticationScheme),
-                    Expires = DateTime.UtcNow.AddHours(6),
+                    Expires = DateTime.UtcNow.AddYears(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
@@ -80,7 +80,7 @@ namespace Snacker.Domain.Services
                         new Claim(ClaimTypes.Role, user.UserType.Name),
                         new Claim("RestaurantId", user.Person.RestaurantId.ToString())
                     }, JwtBearerDefaults.AuthenticationScheme),
-                    Expires = DateTime.UtcNow.AddHours(6),
+                    Expires = DateTime.UtcNow.AddYears(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 

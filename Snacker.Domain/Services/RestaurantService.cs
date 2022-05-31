@@ -1,8 +1,6 @@
 ﻿using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
-using Snacker.Domain.Validators;
-using System;
 using System.Collections.Generic;
 
 namespace Snacker.Domain.Services

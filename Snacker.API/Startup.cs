@@ -102,6 +102,8 @@ namespace Snacker.API
             services.AddScoped<IBillRepository, BillRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -46,6 +46,21 @@ namespace Snacker.API.Controllers
             return Execute(() => _baseTableService.GetById(tableId));
         }
 
+        [Authorize]
+        [HttpGet("Role")]
+        public IActionResult TokenInfo([FromHeader] string authorization)
+        {
+            try
+            {
+                var role = _authService.GetTokenValue(authorization.Split(" ")[1], "Role");
+                return Ok(role);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

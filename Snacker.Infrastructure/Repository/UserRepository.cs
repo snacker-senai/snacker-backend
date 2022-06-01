@@ -28,7 +28,9 @@ namespace Snacker.Infrastructure.Repository
         public override void Update(User obj)
         {
             _mySqlContext.Entry(obj).State = EntityState.Modified;
+            _mySqlContext.SaveChanges();
             _mySqlContext.Entry(obj.Person).State = EntityState.Modified;
+            _mySqlContext.SaveChanges();
             _mySqlContext.Entry(obj.Person.Address).State = EntityState.Modified;
             _mySqlContext.SaveChanges();
         }
@@ -37,8 +39,10 @@ namespace Snacker.Infrastructure.Repository
         {
             var user = Select(id);
             _mySqlContext.Set<User>().Remove(user);
-            _mySqlContext.Set<Address>().Remove(user.Person.Address);
+            _mySqlContext.SaveChanges();
             _mySqlContext.Set<Person>().Remove(user.Person);
+            _mySqlContext.SaveChanges();
+            _mySqlContext.Set<Address>().Remove(user.Person.Address);
             _mySqlContext.SaveChanges();
         }
 

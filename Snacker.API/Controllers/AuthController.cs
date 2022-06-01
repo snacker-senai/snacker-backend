@@ -47,13 +47,31 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("Role")]
-        public IActionResult TokenInfo([FromHeader] string authorization)
+        [HttpGet("TokenClaims")]
+        public IActionResult GetTokenClaims([FromHeader] string authorization)
         {
             try
             {
-                var role = _authService.GetTokenValue(authorization.Split(" ")[1], "Role");
-                return Ok(role);
+                var role = _authService.GetTokenValue(authorization.Split(" ")[1], "role");
+                if (role == "Cliente")
+                {
+                    return Ok (new
+                    {
+                        Role = role,
+                        TableId = _authService.GetTokenValue(authorization.Split(" ")[1], "TableId"),
+                        RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId")),
+                        BillId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"))
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        Role = role,
+                        Email = _authService.GetTokenValue(authorization.Split(" ")[1], "email"),
+                        RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"))
+                    });
+                }
             }
             catch (Exception ex)
             {

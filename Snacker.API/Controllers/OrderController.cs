@@ -44,7 +44,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetById(id));
         }
 
-        [HttpGet("GetByBill")]
+        [HttpGet("GetByBill/{billId}")]
         public IActionResult GetByBill(long billId)
         {
             return Execute(() => _orderService.GetByBill(billId));

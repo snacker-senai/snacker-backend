@@ -25,6 +25,24 @@ namespace Snacker.Infrastructure.Repository
             _mySqlContext.SaveChanges();
         }
 
+        public override void Update(User obj)
+        {
+            _mySqlContext.Entry(obj).State = EntityState.Modified;
+            _mySqlContext.Entry(obj.UserType).State = EntityState.Modified;
+            _mySqlContext.Entry(obj.Person).State = EntityState.Modified;
+            _mySqlContext.Entry(obj.Person.Address).State = EntityState.Modified;
+            _mySqlContext.SaveChanges();
+        }
+
+        public override void Delete(long id)
+        {
+            var user = Select(id);
+            _mySqlContext.Set<User>().Remove(user);
+            _mySqlContext.Set<Address>().Remove(user.Person.Address);
+            _mySqlContext.Set<Person>().Remove(user.Person);
+            _mySqlContext.SaveChanges();
+        }
+
         public override ICollection<User> Select()
         {
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).ToList();

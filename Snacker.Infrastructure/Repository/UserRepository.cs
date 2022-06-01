@@ -37,9 +37,9 @@ namespace Snacker.Infrastructure.Repository
         public override void Delete(long id)
         {
             var user = Select(id);
+            _mySqlContext.Set<User>().Remove(user);
             _mySqlContext.Set<Address>().Remove(user.Person.Address);
             _mySqlContext.Set<Person>().Remove(user.Person);
-            _mySqlContext.Set<User>().Remove(user);
             _mySqlContext.SaveChanges();
         }
 

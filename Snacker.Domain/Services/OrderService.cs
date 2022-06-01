@@ -8,10 +8,10 @@ namespace Snacker.Domain.Services
 {
     public class OrderService : BaseService<Order>, IOrderService
     {
-        private readonly IBaseRepository<Order> _orderRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly IBaseRepository<OrderHasProduct> _orderHasProductRepository;
         private readonly IBillRepository _billRepository;
-        public OrderService(IBaseRepository<Order> orderRepository, IBaseRepository<OrderHasProduct> orderHasProductRepository, IBillRepository billRepository) : base(orderRepository)
+        public OrderService(IOrderRepository orderRepository, IBaseRepository<OrderHasProduct> orderHasProductRepository, IBillRepository billRepository) : base(orderRepository)
         {
             _orderRepository = orderRepository;
             _orderHasProductRepository = orderHasProductRepository;
@@ -38,6 +38,21 @@ namespace Snacker.Domain.Services
                 });
             }
             return _orderRepository.Select(order.Id);
+        }
+
+        public ICollection<object> GetByBill(long billId)
+        {
+            var itens = _orderRepository.SelectByBill(billId);
+            var result = new List<object>();
+            foreach (var item in itens)
+            {
+                if (item.OrderHasProductCollection.Any())
+                {
+                    var dto = new OrderWithProductsDTO(item);
+                    result.Add(dto);
+                }
+            }
+            return result;
         }
     }
 }

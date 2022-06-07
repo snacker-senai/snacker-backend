@@ -52,7 +52,7 @@ namespace Snacker.API.Controllers
 
         [Authorize(Roles = "Cliente")]
         [HttpGet("ByBill")]
-        public IActionResult GetByBill(string authorization)
+        public IActionResult GetByBill([FromHeader] string authorization)
         {
             return Execute(() => _orderService.GetByBill(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"))));
         }

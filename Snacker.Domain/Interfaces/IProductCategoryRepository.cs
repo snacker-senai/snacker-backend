@@ -6,5 +6,6 @@ namespace Snacker.Domain.Interfaces
     public interface IProductCategoryRepository : IBaseRepository<ProductCategory>
     {
         ICollection<ProductCategory> SelectWithProducts(long restaurantId);
+        ICollection<ProductCategory> SelectFromRestaurant(long restaurantId);
     }
 }

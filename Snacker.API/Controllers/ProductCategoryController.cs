@@ -77,6 +77,39 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetById(id));
         }
 
+        [Authorize(Roles = "Gerente")]
+        [HttpGet("FromRestaurant")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productCategoryService.GetFromRestaurant(restaurantId));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPost]
+        public IActionResult CreateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
+        {
+            if (productCategory == null)
+                return NotFound();
+
+            productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPut]
+        public IActionResult UpdateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
+        {
+            if (productCategory == null)
+                return NotFound();
+
+            productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

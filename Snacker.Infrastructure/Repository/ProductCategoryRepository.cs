@@ -13,6 +13,11 @@ namespace Snacker.Infrastructure.Repository
         {
         }
 
+        public ICollection<ProductCategory> SelectFromRestaurant(long restaurantId)
+        {
+            return _mySqlContext.Set<ProductCategory>().Where(p => p.RestaurantId == restaurantId).ToList();
+        }
+
         public ICollection<ProductCategory> SelectWithProducts(long restaurantId)
         {
             return _mySqlContext.Set<ProductCategory>().Include(p => p.Products).Where(p => p.RestaurantId == restaurantId).ToList();

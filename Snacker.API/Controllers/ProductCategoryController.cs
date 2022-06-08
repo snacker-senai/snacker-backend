@@ -87,7 +87,7 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize(Roles = "Gerente")]
-        [HttpPost]
+        [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {
             if (productCategory == null)
@@ -99,7 +99,7 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize(Roles = "Gerente")]
-        [HttpPut]
+        [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {
             if (productCategory == null)

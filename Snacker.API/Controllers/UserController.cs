@@ -77,6 +77,30 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.GetFromRestaurant(restaurantId));
         }
 
+        [Authorize(Roles = "Gerente")]
+        [HttpPost]
+        public IActionResult CreateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
+        {
+            if (user == null)
+                return NotFound();
+
+            user.Person.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _userService.Add<UserValidator>(user).Id);
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPut]
+        public IActionResult UpdateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
+        {
+            if (user == null)
+                return NotFound();
+
+            user.Person.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _userService.Update<UserValidator>(user));
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

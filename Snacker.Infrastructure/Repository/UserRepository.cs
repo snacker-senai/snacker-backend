@@ -27,11 +27,11 @@ namespace Snacker.Infrastructure.Repository
 
         public override void Update(User obj)
         {
-            _mySqlContext.Entry(obj).State = EntityState.Modified;
+            _mySqlContext.Entry(obj.Person.Address).State = EntityState.Modified;
             _mySqlContext.SaveChanges();
             _mySqlContext.Entry(obj.Person).State = EntityState.Modified;
             _mySqlContext.SaveChanges();
-            _mySqlContext.Entry(obj.Person.Address).State = EntityState.Modified;
+            _mySqlContext.Entry(obj).State = EntityState.Modified;
             _mySqlContext.SaveChanges();
         }
 

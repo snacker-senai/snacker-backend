@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -10,11 +11,13 @@ namespace Snacker.API.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly IBaseService<Product> _baseProductService;
+        private readonly IProductService _productService;
+        private readonly IAuthService _authService;
 
-        public ProductController(IBaseService<Product> baseProductService)
+        public ProductController(IProductService productService, IAuthService authService)
         {
-            _baseProductService = baseProductService;
+            _productService = productService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -23,7 +26,7 @@ namespace Snacker.API.Controllers
             if (product == null)
                 return NotFound();
 
-            return Execute(() => _baseProductService.Add<ProductValidator>(product).Id);
+            return Execute(() => _productService.Add<ProductValidator>(product).Id);
         }
 
         [HttpPut]
@@ -32,7 +35,7 @@ namespace Snacker.API.Controllers
             if (product == null)
                 return NotFound();
 
-            return Execute(() => _baseProductService.Update<ProductValidator>(product));
+            return Execute(() => _productService.Update<ProductValidator>(product));
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +46,7 @@ namespace Snacker.API.Controllers
 
             Execute(() =>
             {
-                _baseProductService.Delete(id);
+                _productService.Delete(id);
                 return true;
             });
 
@@ -53,7 +56,7 @@ namespace Snacker.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(() => _baseProductService.Get());
+            return Execute(() => _productService.Get());
         }
 
         [HttpGet("{id}")]
@@ -62,7 +65,16 @@ namespace Snacker.API.Controllers
             if (id == 0)
                 return NotFound();
 
-            return Execute(() => _baseProductService.GetById(id));
+            return Execute(() => _productService.GetById(id));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpGet("FromRestaurant")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productService.GetFromRestaurant(restaurantId));
         }
 
         private IActionResult Execute(Func<object> func)

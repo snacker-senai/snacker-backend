@@ -7,6 +7,5 @@ namespace Snacker.Domain.Interfaces
     {
         User ValidateUser(string email, string password);
         ICollection<User> SelectFromRestaurant(long restaurantId);
-        User SelectFromRestaurantById(long restaurantId, long id);
     }
 }

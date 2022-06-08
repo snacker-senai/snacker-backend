@@ -42,11 +42,5 @@ namespace Snacker.Domain.Services
             }
             return result;
         }
-
-        public object GetFromRestaurantById(long restaurantId, long id)
-        {
-            var item = _userRepository.SelectFromRestaurantById(restaurantId, id);
-            return new UserDTO(item);
-        }
     }
 }

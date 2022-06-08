@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace Snacker.Domain.Services
 {
-    public class ProductService : BaseService<Product>
+    public class ProductService : BaseService<Product>, IProductService
     {
-        private readonly IBaseRepository<Product> _productRepository;
-        public ProductService(IBaseRepository<Product> productRepository) : base(productRepository)
+        private readonly IProductRepository _productRepository;
+        public ProductService(IProductRepository productRepository) : base(productRepository)
         {
             _productRepository = productRepository;
         }
@@ -29,6 +29,18 @@ namespace Snacker.Domain.Services
         {
             var item = _productRepository.Select(id);
             return new ProductDTO(item);
+        }
+
+        public ICollection<object> GetFromRestaurant(long restaurantId)
+        {
+            var itens = _productRepository.SelectFromRestaurant(restaurantId);
+            var result = new List<object>();
+            foreach (var item in itens)
+            {
+                var dto = new ProductDTO(item);
+                result.Add(dto);
+            }
+            return result;
         }
     }
 }

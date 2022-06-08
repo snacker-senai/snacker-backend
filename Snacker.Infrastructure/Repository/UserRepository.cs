@@ -61,11 +61,6 @@ namespace Snacker.Infrastructure.Repository
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).Where(p => p.Person.RestaurantId == restaurantId).ToList();
         }
 
-        public User SelectFromRestaurantById(long restaurantId, long id)
-        {
-            return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).Where(p => p.Person.RestaurantId == restaurantId && p.Id == id).FirstOrDefault();
-        }
-
         public User ValidateUser(string email, string password)
         {
             return _mySqlContext.Set<User>().Include(p => p.UserType).Include(p => p.Person).Include(p => p.Person.Address).Include(p => p.Person.Restaurant).Include(p => p.Person.Restaurant.Address).Include(p => p.Person.Restaurant.RestaurantCategory).Where(p => p.Email.ToLower() == email.ToLower() && p.Password == password).FirstOrDefault();

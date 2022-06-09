@@ -13,11 +13,15 @@ namespace Snacker.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
+        private readonly IBaseService<Person> _personService;
+        private readonly IBaseService<Address> _addressService;
 
-        public UserController(IUserService userService, IAuthService authService)
+        public UserController(IUserService userService, IAuthService authService, IBaseService<Person> personService, IBaseService<Address> addressService)
         {
             _userService = userService;
             _authService = authService;
+            _personService = personService;
+            _addressService = addressService;
         }
 
         [HttpPost]
@@ -93,12 +97,21 @@ namespace Snacker.API.Controllers
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
         {
-            if (user == null)
-                return NotFound();
+            try
+            {
+                if (user == null)
+                    return NotFound();
 
-            user.Person.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
-
-            return Execute(() => _userService.Update<UserValidator>(user));
+                user.Person.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+                _userService.Update<UserValidator>(user);
+                _personService.Update<PersonValidator>(user.Person);
+                _addressService.Update<AddressValidator>(user.Person.Address);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         private IActionResult Execute(Func<object> func)

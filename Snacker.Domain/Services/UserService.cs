@@ -27,15 +27,6 @@ namespace Snacker.Domain.Services
             return obj;
         }
 
-        public override User Update<TValidator>(User obj)
-        {
-            Validate(obj, Activator.CreateInstance<TValidator>());
-            _addressRepository.Update(obj.Person.Address);
-            _personRepository.Update(obj.Person);
-            _userRepository.Update(obj);
-            return obj;
-        }
-
         public override void Delete(long id)
         {
             var user = _userRepository.Select(id);

@@ -1,6 +1,7 @@
 ﻿using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Snacker.Domain.Services
@@ -8,9 +9,39 @@ namespace Snacker.Domain.Services
     public class UserService : BaseService<User>, IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository) : base(userRepository)
+        private readonly IBaseRepository<Address> _addressRepository;
+        private readonly IBaseRepository<Person> _personRepository;
+        public UserService(IUserRepository userRepository, IBaseRepository<Address> addressRepository, IBaseRepository<Person> personRepository) : base(userRepository)
         {
             _userRepository = userRepository;
+            _addressRepository = addressRepository;
+            _personRepository = personRepository;
+        }
+
+        public override User Add<TValidator>(User obj)
+        {
+            Validate(obj, Activator.CreateInstance<TValidator>());
+            _addressRepository.Insert(obj.Person.Address);
+            _personRepository.Insert(obj.Person);
+            _userRepository.Insert(obj);
+            return obj;
+        }
+
+        public override User Update<TValidator>(User obj)
+        {
+            Validate(obj, Activator.CreateInstance<TValidator>());
+            _addressRepository.Update(obj.Person.Address);
+            _personRepository.Update(obj.Person);
+            _userRepository.Update(obj);
+            return obj;
+        }
+
+        public override void Delete(long id)
+        {
+            var user = _userRepository.Select(id);
+            _userRepository.Delete(id);
+            _personRepository.Delete(user.PersonId);
+            _addressRepository.Delete(user.Person.AddressId);
         }
 
         public override ICollection<object> Get()

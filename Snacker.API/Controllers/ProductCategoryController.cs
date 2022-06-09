@@ -95,7 +95,7 @@ namespace Snacker.API.Controllers
 
             productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
-            return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
+            return Execute(() => _productCategoryService.Add<ProductCategoryValidator>(productCategory));
         }
 
         [Authorize(Roles = "Gerente")]

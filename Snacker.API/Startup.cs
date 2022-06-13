@@ -107,6 +107,9 @@ namespace Snacker.API
 
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<ITableRepository, TableRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

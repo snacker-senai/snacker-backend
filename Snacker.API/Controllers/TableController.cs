@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
@@ -10,11 +11,13 @@ namespace Snacker.API.Controllers
     [Route("api/[controller]")]
     public class TableController : ControllerBase
     {
-        private readonly IBaseService<Table> _baseTableService;
+        private readonly ITableService _tableService;
+        private readonly IAuthService _authService;
 
-        public TableController(IBaseService<Table> baseTableService)
+        public TableController(ITableService tableService, IAuthService authService)
         {
-            _baseTableService = baseTableService;
+            _tableService = tableService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -23,7 +26,7 @@ namespace Snacker.API.Controllers
             if (table == null)
                 return NotFound();
 
-            return Execute(() => _baseTableService.Add<TableValidator>(table).Id);
+            return Execute(() => _tableService.Add<TableValidator>(table).Id);
         }
 
         [HttpPut]
@@ -32,7 +35,7 @@ namespace Snacker.API.Controllers
             if (table == null)
                 return NotFound();
 
-            return Execute(() => _baseTableService.Update<TableValidator>(table));
+            return Execute(() => _tableService.Update<TableValidator>(table));
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +46,7 @@ namespace Snacker.API.Controllers
 
             Execute(() =>
             {
-                _baseTableService.Delete(id);
+                _tableService.Delete(id);
                 return true;
             });
 
@@ -53,7 +56,7 @@ namespace Snacker.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(() => _baseTableService.Get());
+            return Execute(() => _tableService.Get());
         }
 
         [HttpGet("{id}")]
@@ -62,7 +65,40 @@ namespace Snacker.API.Controllers
             if (id == 0)
                 return NotFound();
 
-            return Execute(() => _baseTableService.GetById(id));
+            return Execute(() => _tableService.GetById(id));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpGet("FromRestaurant")]
+        public IActionResult GetFromRestaurant([FromHeader] string authorization, int? page)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _tableService.GetFromRestaurant(restaurantId));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPost("FromRestaurant")]
+        public IActionResult CreateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
+        {
+            if (table == null)
+                return NotFound();
+
+            table.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _tableService.Add<TableValidator>(table).Id);
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPut("FromRestaurant")]
+        public IActionResult UpdateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
+        {
+            if (table == null)
+                return NotFound();
+
+            table.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _tableService.Update<TableValidator>(table));
         }
 
         private IActionResult Execute(Func<object> func)

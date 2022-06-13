@@ -78,6 +78,15 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize(Roles = "Gerente")]
+        [HttpGet("TopSelling")]
+        public IActionResult GetTopSelling([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productService.GetTopSelling(restaurantId));
+        }
+
+        [Authorize(Roles = "Gerente")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Product product, [FromHeader] string authorization)
         {

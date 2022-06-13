@@ -27,5 +27,10 @@ namespace Snacker.Infrastructure.Repository
         {
             return _mySqlContext.Set<Product>().Include(p => p.ProductCategory).Include(p => p.Restaurant).Include(p => p.Restaurant.RestaurantCategory).Include(p => p.Restaurant.Address).Where(p => p.RestaurantId == restaurantId).ToList();
         }
+
+        public ICollection<Product> SelectTopSelling(long restaurantId)
+        {
+            return _mySqlContext.Set<Product>().Include(p => p.ProductCategory).Include(p => p.Restaurant).Include(p => p.Restaurant.RestaurantCategory).Include(p => p.Restaurant.Address).Include(p => p.OrderHasProductCollection).Where(p => p.RestaurantId == restaurantId).ToList();
+        }
     }
 }

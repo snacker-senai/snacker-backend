@@ -12,6 +12,11 @@ namespace Snacker.Infrastructure.Mapping
 
             builder.HasKey(prop => prop.Id);
 
+            builder.Property(prop => prop.CreatedAt)
+                .IsRequired()
+                .HasColumnName("createdAt")
+                .HasColumnType("datetime");
+
             builder.HasOne(prop => prop.Table).WithMany(a => a.Orders).HasForeignKey(prop => prop.TableId);
             builder.Property(prop => prop.TableId)
                 .IsRequired()

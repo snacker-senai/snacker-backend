@@ -8,6 +8,8 @@ namespace Snacker.Domain.Entities
     {
         [Required]
         public string Name { get; set; }
+        [Required]
+        public bool Active { get; set; }
         [JsonIgnore]
         public ICollection<Restaurant> Restaurants { get; set; }
     }

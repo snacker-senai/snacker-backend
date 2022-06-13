@@ -22,6 +22,11 @@ namespace Snacker.Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnName("restaurant_category_id");
 
+            builder.Property(prop => prop.Active)
+                .IsRequired()
+                .HasColumnName("active")
+                .HasColumnType("boolean");
+
             builder.Property(prop => prop.Name)
                 .HasConversion(prop => prop.ToString(), prop => prop)
                 .IsRequired()

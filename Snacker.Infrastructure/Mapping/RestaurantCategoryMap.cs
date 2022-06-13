@@ -17,6 +17,11 @@ namespace Snacker.Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnName("name")
                 .HasColumnType("varchar(45)");
+
+            builder.Property(prop => prop.Active)
+                .IsRequired()
+                .HasColumnName("active")
+                .HasColumnType("boolean");
         }
     }
 }

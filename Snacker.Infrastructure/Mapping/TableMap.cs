@@ -18,6 +18,11 @@ namespace Snacker.Infrastructure.Mapping
                 .HasColumnName("number")
                 .HasColumnType("varchar(255)");
 
+            builder.Property(prop => prop.Active)
+                .IsRequired()
+                .HasColumnName("active")
+                .HasColumnType("boolean");
+
             builder.HasOne(prop => prop.Restaurant).WithMany(a => a.Tables).HasForeignKey(prop => prop.RestaurantId);
             builder.Property(prop => prop.RestaurantId)
                .IsRequired()

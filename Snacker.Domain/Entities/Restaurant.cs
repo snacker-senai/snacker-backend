@@ -10,6 +10,8 @@ namespace Snacker.Domain.Entities
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+        [Required]
+        public bool Active { get; set; }
         [JsonIgnore]
         public long AddressId { get; set; }
         [Required]

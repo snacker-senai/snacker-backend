@@ -57,6 +57,13 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetByBill(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"))));
         }
 
+        [Authorize(Roles = "Gerente, Garçom, Cozinheiro")]
+        [HttpGet("ByStatus/{statusId}")]
+        public IActionResult GetByStatus(long statusId)
+        {
+            return Execute(() => _orderService.GetByStatus(statusId));
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

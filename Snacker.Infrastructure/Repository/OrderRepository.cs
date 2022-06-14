@@ -17,5 +17,9 @@ namespace Snacker.Infrastructure.Repository
         {
             return _mySqlContext.Set<Order>().Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Where(p => p.BillId == billId).ToList();
         }
+        public ICollection<Order> SelectByStatus(long statusId)
+        {
+            return _mySqlContext.Set<Order>().Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Where(p => p.OrderStatusId == statusId).ToList();
+        }
     }
 }

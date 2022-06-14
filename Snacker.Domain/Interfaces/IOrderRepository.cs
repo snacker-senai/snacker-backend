@@ -6,5 +6,6 @@ namespace Snacker.Domain.Interfaces
     public interface IOrderRepository : IBaseRepository<Order>
     {
         ICollection<Order> SelectByBill(long billId);
+        ICollection<Order> SelectByStatus(long statusId);
     }
 }

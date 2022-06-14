@@ -1,4 +1,5 @@
 ﻿using Snacker.Domain.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Snacker.Domain.DTOs
@@ -8,6 +9,7 @@ namespace Snacker.Domain.DTOs
         public OrderWithProductsDTO(Order order)
         {
             Id = order.Id;
+            CreatedAt = order.CreatedAt;
             OrderStatus = new OrderStatusDTO
             {
                 Id = order.OrderStatus.Id,
@@ -19,6 +21,7 @@ namespace Snacker.Domain.DTOs
                 ProductsWithQuantity.Add(new ProductAndQuantityDTO(item));
             }
         }
+        public DateTime CreatedAt { get; set; }
         public OrderStatusDTO OrderStatus { get; set; }
         public ICollection<ProductAndQuantityDTO> ProductsWithQuantity { get; set; }
     }

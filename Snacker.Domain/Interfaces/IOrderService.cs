@@ -8,5 +8,6 @@ namespace Snacker.Domain.Interfaces
     {
         Order Add<TValidator>(CreateOrderDTO dto, long tableId);
         ICollection<object> GetByBill(long billId);
+        ICollection<object> GetByStatus(long statusId);
     }
 }

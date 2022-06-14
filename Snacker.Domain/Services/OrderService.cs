@@ -1,6 +1,7 @@
 ﻿using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +26,8 @@ namespace Snacker.Domain.Services
             {
                 OrderStatusId = 1,
                 TableId = tableId,
-                BillId = bill.Id
+                BillId = bill.Id,
+                CreatedAt = DateTime.Now
             };
             _orderRepository.Insert(order);
             foreach (var productWithQuantity in dto.ProductsWithQuantity)

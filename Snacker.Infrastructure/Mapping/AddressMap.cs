@@ -24,6 +24,12 @@ namespace Snacker.Infrastructure.Mapping
                 .HasColumnName("street")
                 .HasColumnType("varchar(255)");
 
+            builder.Property(prop => prop.State)
+                .HasConversion(prop => prop.ToString(), prop => prop)
+                .IsRequired()
+                .HasColumnName("state")
+                .HasColumnType("varchar(255)");
+
             builder.Property(prop => prop.District)
                 .HasConversion(prop => prop.ToString(), prop => prop)
                 .IsRequired()

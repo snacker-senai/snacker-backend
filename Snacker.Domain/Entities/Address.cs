@@ -14,6 +14,8 @@ namespace Snacker.Domain.Entities
         [Required]
         public string City { get; set; }
         [Required]
+        public string State { get; set; }
+        [Required]
         public string Number { get; set; }
         [Required]
         public string Country { get; set; }

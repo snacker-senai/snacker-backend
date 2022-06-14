@@ -12,6 +12,12 @@ namespace Snacker.Infrastructure.Mapping
 
             builder.HasKey(prop => prop.Id);
 
+            builder.Property(prop => prop.Details)
+                .HasConversion(prop => prop.ToString(), prop => prop)
+                .IsRequired()
+                .HasColumnName("details")
+                .HasColumnType("varchar(255)");
+
             builder.HasOne(prop => prop.Order).WithMany(a => a.OrderHasProductCollection).HasForeignKey(prop => prop.OrderId);
             builder.Property(prop => prop.OrderId)
                     .IsRequired()

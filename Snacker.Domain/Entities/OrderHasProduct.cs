@@ -9,6 +9,7 @@ namespace Snacker.Domain.Entities
         public int Quantity { get; set; }
         [Required]
         public long OrderId { get; set; }
+        public string Details { get; set; }
         [JsonIgnore]
         public Order Order { get; set; }
         [Required]

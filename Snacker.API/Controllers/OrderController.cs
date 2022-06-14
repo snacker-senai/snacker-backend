@@ -70,15 +70,22 @@ namespace Snacker.API.Controllers
         [HttpPut("ChangeStatus/{orderId}/{statusId}")]
         public IActionResult ChangeOrderStatus(long orderId, long statusId)
         {
-            var order = (Order)_orderService.GetById(orderId);
-            var status = (OrderStatus)_baseStatusService.GetById(statusId);
+            try
+            {
+                var order = (Order)_orderService.GetById(orderId);
+                var status = (OrderStatus)_baseStatusService.GetById(statusId);
 
-            if (order == null || status == null)
-                return NotFound();
+                if (order == null || status == null)
+                    return NotFound();
 
-            order.OrderStatusId = status.Id;
-
-            return Execute(() => _orderService.Update<OrderValidator>(order));
+                order.OrderStatusId = status.Id;
+                _orderService.Update<OrderValidator>(order);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         private IActionResult Execute(Func<object> func)

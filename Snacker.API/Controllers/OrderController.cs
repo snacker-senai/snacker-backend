@@ -67,7 +67,7 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize(Roles = "Gerente")]
-        [HttpPut("ChangeStatus/{id}")]
+        [HttpPut("ChangeStatus/{orderId}")]
         public IActionResult UpdateFromRestaurant(long orderId, [FromBody] long statusId)
         {
             var order = (Order)_orderService.GetById(orderId);

@@ -11,11 +11,13 @@ namespace Snacker.Domain.DTOs
             Quantity = orderHasProduct.Quantity;
             ProductName = orderHasProduct.Product.Name;
             Price = orderHasProduct.Product.Price;
+            Details = orderHasProduct.Details;
         }
 
         public long ProductId { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public string Details { get; set; }
     }
 }

@@ -20,8 +20,10 @@ namespace Snacker.Domain.DTOs
             {
                 ProductsWithQuantity.Add(new ProductAndQuantityDTO(item));
             }
+            Table = order.Bill.Table.Number;
         }
         public DateTime CreatedAt { get; set; }
+        public string Table { get; set; }
         public OrderStatusDTO OrderStatus { get; set; }
         public ICollection<ProductAndQuantityDTO> ProductsWithQuantity { get; set; }
     }

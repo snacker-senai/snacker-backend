@@ -14,11 +14,13 @@ namespace Snacker.API.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IAuthService _authService;
+        private readonly IBaseService<OrderStatus> _baseStatusService;
 
-        public OrderController(IOrderService orderService, IAuthService authService)
+        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService)
         {
             _orderService = orderService;
             _authService = authService;
+            _baseStatusService = baseStatusService;
         }
 
         [Authorize(Roles = "Cliente, Garçom")]
@@ -62,6 +64,21 @@ namespace Snacker.API.Controllers
         public IActionResult GetByStatus(long statusId)
         {
             return Execute(() => _orderService.GetByStatus(statusId));
+        }
+
+        [Authorize(Roles = "Gerente")]
+        [HttpPut("ChangeStatus/{id}")]
+        public IActionResult UpdateFromRestaurant(long orderId, [FromBody] long statusId)
+        {
+            var order = (Order)_orderService.GetById(orderId);
+            var status = (OrderStatus)_baseStatusService.GetById(statusId);
+
+            if (order == null || status == null)
+                return NotFound();
+
+            order.OrderStatusId = status.Id;
+
+            return Execute(() => _orderService.Update<OrderValidator>(order));
         }
 
         private IActionResult Execute(Func<object> func)

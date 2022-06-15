@@ -21,7 +21,5 @@ namespace Snacker.Domain.Entities
         public string Country { get; set; }
         [JsonIgnore]
         public Restaurant Restaurant { get; set; }
-        [JsonIgnore]
-        public Person Person { get; set; }
     }
 }

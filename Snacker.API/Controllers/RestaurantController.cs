@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
+using System.Linq;
 
 namespace Snacker.API.Controllers
 {
@@ -12,20 +14,74 @@ namespace Snacker.API.Controllers
     {
         private readonly IBaseService<Restaurant> _baseRestaurantService;
         private readonly IBaseService<Address> _baseAddressService;
+        private readonly IBaseService<Person> _basePersonService;
+        private readonly IUserService _userService;
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService)
+        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService, IBaseService<Person> basePersonService, IUserService userService)
         {
             _baseRestaurantService = baseRestaurantService;
             _baseAddressService = baseAddressService;
+            _basePersonService = basePersonService;
+            _userService = userService;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Restaurant restaurant)
+        public IActionResult Create([FromBody] CreateRestaurantDTO dto)
         {
-            if (restaurant == null)
-                return NotFound();
+            try
+            {
+                if (dto.User == null || dto.Address == null || dto.Person == null)
+                    return NotFound();
 
-            return Execute(() => _baseRestaurantService.Add<RestaurantValidator>(restaurant).Id);
+                var addressId = _baseAddressService.Add<AddressValidator>(new Address
+                {
+                    CEP = dto.Address.CEP,
+                    City = dto.Address.City,
+                    Country = dto.Address.Country,
+                    District = dto.Address.District,
+                    Number = dto.Address.Number,
+                    State = dto.Address.State,
+                    Street = dto.Address.Street
+                }).Id;
+                var restaurantId = _baseRestaurantService.Add<RestaurantValidator>(new Restaurant
+                {
+                    Active = dto.Active,
+                    AddressId = addressId,
+                    Description = dto.Description,
+                    Name = dto.Name,
+                    RestaurantCategoryId = dto.RestaurantCategoryId,
+                }).Id;
+                var personId = _basePersonService.Add<PersonValidator>(new Person
+                {
+                    RestaurantId = restaurantId,
+                    BirthDate = dto.Person.BirthDate,
+                    Document = dto.Person.Document,
+                    Name = dto.Person.Name,
+                    Phone = dto.Person.Phone,
+                }).Id;
+
+                var random = new Random();
+                var generatedPassword = new string(
+                    Enumerable.Repeat(chars, 7)
+                              .Select(s => s[random.Next(s.Length)])
+                              .ToArray());
+
+                var user = _userService.Add<UserValidator>(new User
+                {
+                     Email = dto.User.Email,
+                     UserTypeId = 34,
+                     PersonId = personId,
+                     Password = generatedPassword
+                });
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
         }
 
         [HttpPut]

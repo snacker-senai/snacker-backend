@@ -34,11 +34,6 @@ namespace Snacker.Infrastructure.Mapping
                 .HasColumnName("document")
                 .HasColumnType("varchar(255)");
 
-            builder.HasOne(prop => prop.Address).WithOne(a => a.Person).HasForeignKey<Person>(prop => prop.AddressId);
-            builder.Property(prop => prop.AddressId)
-               .IsRequired()
-               .HasColumnName("address_id");
-
             builder.HasOne(prop => prop.Restaurant).WithMany(a => a.Persons).HasForeignKey(prop => prop.RestaurantId);
             builder.Property(prop => prop.RestaurantId)
                .IsRequired()

@@ -21,7 +21,6 @@ namespace Snacker.Domain.Services
         public override User Add<TValidator>(User obj)
         {
             Validate(obj, Activator.CreateInstance<TValidator>());
-            _addressRepository.Insert(obj.Person.Address);
             _personRepository.Insert(obj.Person);
             _userRepository.Insert(obj);
             return obj;
@@ -32,7 +31,6 @@ namespace Snacker.Domain.Services
             var user = _userRepository.Select(id);
             _userRepository.Delete(id);
             _personRepository.Delete(user.PersonId);
-            _addressRepository.Delete(user.Person.AddressId);
         }
 
         public override ICollection<object> Get()

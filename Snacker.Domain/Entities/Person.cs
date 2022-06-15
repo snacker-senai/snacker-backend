@@ -16,11 +16,7 @@ namespace Snacker.Domain.Entities
         [Required]
         public long RestaurantId { get; set; }
         [JsonIgnore]
-        public long AddressId { get; set; }
-        [JsonIgnore]
         public Restaurant Restaurant { get; set; }
-        [Required]
-        public Address Address { get; set; }
         [JsonIgnore]
         public User User { get; set; }
     }

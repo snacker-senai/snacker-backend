@@ -12,8 +12,6 @@ namespace Snacker.Domain.DTOs
             BirthDate = person.BirthDate;
             Phone = person.Phone;
             Document = person.Document;
-            Address = new AddressDTO(person.Address);
-            AddressId = person.AddressId;
             Restaurant = new RestaurantDTO(person.Restaurant);
             RestaurantId = person.RestaurantId;
         }
@@ -23,7 +21,5 @@ namespace Snacker.Domain.DTOs
         public string Document { get; set; }
         public RestaurantDTO Restaurant { get; set; }
         public long RestaurantId { get; set; }
-        public AddressDTO Address { get; set; }
-        public long AddressId { get; set; }
     }
 }

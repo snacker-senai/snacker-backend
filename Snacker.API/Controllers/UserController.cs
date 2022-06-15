@@ -105,7 +105,6 @@ namespace Snacker.API.Controllers
                 user.Person.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
                 _userService.Update<UserValidator>(user);
                 _personService.Update<PersonValidator>(user.Person);
-                _addressService.Update<AddressValidator>(user.Person.Address);
                 return Ok();
             }
             catch (Exception ex)

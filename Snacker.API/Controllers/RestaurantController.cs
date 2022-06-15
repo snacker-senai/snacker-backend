@@ -11,10 +11,12 @@ namespace Snacker.API.Controllers
     public class RestaurantController : ControllerBase
     {
         private readonly IBaseService<Restaurant> _baseRestaurantService;
+        private readonly IBaseService<Address> _baseAddressService;
 
-        public RestaurantController(IBaseService<Restaurant> baseRestaurantService)
+        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService)
         {
             _baseRestaurantService = baseRestaurantService;
+            _baseAddressService = baseAddressService;
         }
 
         [HttpPost]
@@ -29,9 +31,10 @@ namespace Snacker.API.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] Restaurant restaurant)
         {
-            if (restaurant == null)
+            if (restaurant == null || restaurant.Address == null)
                 return NotFound();
 
+            _baseAddressService.Update<AddressValidator>(restaurant.Address);
             return Execute(() => _baseRestaurantService.Update<RestaurantValidator>(restaurant));
         }
 

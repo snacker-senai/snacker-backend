@@ -34,7 +34,7 @@ namespace Snacker.API.Controllers
                 if (dto.User == null || dto.Address == null || dto.Person == null)
                     return NotFound();
 
-                var addressId = _baseAddressService.Add<AddressValidator>(new Address
+                var address = _baseAddressService.Add<AddressValidator>(new Address
                 {
                     CEP = dto.Address.CEP,
                     City = dto.Address.City,
@@ -43,11 +43,12 @@ namespace Snacker.API.Controllers
                     Number = dto.Address.Number,
                     State = dto.Address.State,
                     Street = dto.Address.Street
-                }).Id;
+                });
                 var restaurantId = _baseRestaurantService.Add<RestaurantValidator>(new Restaurant
                 {
                     Active = dto.Active,
-                    AddressId = addressId,
+                    AddressId = address.Id,
+                    Address = address,
                     Description = dto.Description,
                     Name = dto.Name,
                     RestaurantCategoryId = dto.RestaurantCategoryId,

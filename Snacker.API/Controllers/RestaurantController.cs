@@ -53,14 +53,6 @@ namespace Snacker.API.Controllers
                     Name = dto.Name,
                     RestaurantCategoryId = dto.RestaurantCategoryId,
                 }).Id;
-                var personId = _basePersonService.Add<PersonValidator>(new Person
-                {
-                    RestaurantId = restaurantId,
-                    BirthDate = dto.Person.BirthDate,
-                    Document = dto.Person.Document,
-                    Name = dto.Person.Name,
-                    Phone = dto.Person.Phone,
-                }).Id;
 
                 var random = new Random();
                 var generatedPassword = new string(
@@ -72,11 +64,18 @@ namespace Snacker.API.Controllers
                 {
                      Email = dto.User.Email,
                      UserTypeId = 34,
-                     PersonId = personId,
+                     Person = new Person
+                     {
+                         RestaurantId = restaurantId,
+                         BirthDate = dto.Person.BirthDate,
+                         Document = dto.Person.Document,
+                         Name = dto.Person.Name,
+                         Phone = dto.Person.Phone,
+                     },
                      Password = generatedPassword
                 });
 
-                return Ok(user);
+                return Ok(new UserDTO(user));
             }
             catch (Exception ex)
             {

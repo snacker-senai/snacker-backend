@@ -15,10 +15,6 @@ namespace Snacker.Domain.Validators
                            .NotEmpty().WithMessage("Please enter the password.")
                            .NotNull().WithMessage("Please enter the password.");
 
-            RuleFor(c => c.Person)
-                           .NotEmpty().WithMessage("Please enter the person.")
-                           .NotNull().WithMessage("Please enter the person.");
-
             RuleFor(c => c.UserTypeId)
                            .NotEmpty().WithMessage("Please enter the user type.")
                            .NotNull().WithMessage("Please enter the user type.");

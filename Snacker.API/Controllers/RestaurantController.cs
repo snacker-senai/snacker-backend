@@ -75,7 +75,7 @@ namespace Snacker.API.Controllers
                      Password = generatedPassword
                 });
 
-                return Ok(new UserDTO(user));
+                return Ok(_userService.GetById(user.Id));
             }
             catch (Exception ex)
             {
@@ -87,11 +87,20 @@ namespace Snacker.API.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] Restaurant restaurant)
         {
-            if (restaurant == null || restaurant.Address == null)
-                return NotFound();
+            try
+            {
+                if (restaurant == null || restaurant.Address == null)
+                    return NotFound();
 
-            _baseAddressService.Update<AddressValidator>(restaurant.Address);
-            return Execute(() => _baseRestaurantService.Update<RestaurantValidator>(restaurant));
+                _baseAddressService.Update<AddressValidator>(restaurant.Address);
+                var updatedRestaurant = _baseRestaurantService.Update<RestaurantValidator>(restaurant);
+                return Ok(_baseRestaurantService.GetById(updatedRestaurant.Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
         }
 
         [HttpDelete("{id}")]

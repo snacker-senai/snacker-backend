@@ -14,14 +14,12 @@ namespace Snacker.API.Controllers
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
         private readonly IBaseService<Person> _personService;
-        private readonly IBaseService<Address> _addressService;
 
-        public UserController(IUserService userService, IAuthService authService, IBaseService<Person> personService, IBaseService<Address> addressService)
+        public UserController(IUserService userService, IAuthService authService, IBaseService<Person> personService)
         {
             _userService = userService;
             _authService = authService;
             _personService = personService;
-            _addressService = addressService;
         }
 
         [HttpPost]

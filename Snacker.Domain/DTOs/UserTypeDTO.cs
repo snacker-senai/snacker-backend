@@ -4,6 +4,10 @@ namespace Snacker.Domain.DTOs
 {
     public class UserTypeDTO : BaseDTO
     {
+        public UserTypeDTO()
+        {
+
+        }
         public UserTypeDTO(UserType userType)
         {
             Id = userType.Id;

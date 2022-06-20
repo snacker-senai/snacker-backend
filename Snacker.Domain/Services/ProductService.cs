@@ -3,6 +3,7 @@ using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Snacker.Domain.Services
 {
@@ -42,18 +43,26 @@ namespace Snacker.Domain.Services
                 result.Add(dto);
             }
             return result;
-        } 
+        }
 
-        public ICollection<ProductTopSellingDTO> GetTopSelling(long restaurantId)
+        public ICollection<ProductTopSellingDTO> GetTopSelling(long restaurantId, DateTime initialDate, DateTime finalDate)
         {
             var products = _productRepository.SelectTopSelling(restaurantId);
             var result = new List<ProductTopSellingDTO>();
             foreach (var product in products)
             {
                 int quantity = 0;
-                foreach (var order in product.OrderHasProductCollection)
+                foreach (var orderHasProduct in product.OrderHasProductCollection)
                 {
-                    quantity += order.Quantity;
+                    bool validDate = false;
+                    if (orderHasProduct.Order.CreatedAt >= initialDate && orderHasProduct.Order.CreatedAt <= finalDate.AddDays(1))
+                    {
+                        validDate = true;
+                    }
+                    if (validDate)
+                    {
+                        quantity += orderHasProduct.Quantity;
+                    }
                 }
                 var dto = new ProductTopSellingDTO(product, quantity);
                 result.Add(dto);

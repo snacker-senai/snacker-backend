@@ -79,11 +79,11 @@ namespace Snacker.API.Controllers
 
         [Authorize(Roles = "Gerente")]
         [HttpGet("TopSelling")]
-        public IActionResult GetTopSelling([FromHeader] string authorization)
+        public IActionResult GetTopSelling([FromHeader] string authorization,DateTime initialDate, DateTime finalDate)
         {
             var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
-            return Execute(() => _productService.GetTopSelling(restaurantId));
+            return Execute(() => _productService.GetTopSelling(restaurantId, initialDate,finalDate));
         }
 
         [Authorize(Roles = "Gerente")]

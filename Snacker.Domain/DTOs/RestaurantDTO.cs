@@ -17,9 +17,11 @@ namespace Snacker.Domain.DTOs
             AddressId = restaurant.AddressId;
             RestaurantCategory = new RestaurantCategoryDTO(restaurant.RestaurantCategory);
             RestaurantCategoryId = restaurant.RestaurantCategoryId;
+            Active = restaurant.Active;
         }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Active { get; set; }
         public AddressDTO Address { get; set; }
         public long AddressId { get; set; }
         public RestaurantCategoryDTO RestaurantCategory { get; set; }

@@ -17,9 +17,11 @@ namespace Snacker.Domain.DTOs
             PersonId = user.PersonId;
             UserType = new UserTypeDTO(user.UserType);
             UserTypeId = user.UserTypeId;
+            ChangePassword = user.ChangePassword;
         }
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool ChangePassword { get; set; }
         public UserTypeDTO UserType { get; set; }
         public long UserTypeId { get; set; }
         public PersonDTO Person { get; set; }

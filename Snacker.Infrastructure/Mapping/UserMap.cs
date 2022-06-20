@@ -12,6 +12,11 @@ namespace Snacker.Infrastructure.Mapping
 
             builder.HasKey(prop => prop.Id);
 
+            builder.Property(prop => prop.ChangePassword)
+                .IsRequired()
+                .HasColumnName("change_password")
+                .HasColumnType("boolean");
+
             builder.HasOne(prop => prop.Person).WithOne(a => a.User).HasForeignKey<User>(prop => prop.PersonId);
             builder.Property(prop => prop.PersonId)
                .IsRequired()

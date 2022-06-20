@@ -84,8 +84,9 @@ namespace Snacker.Domain.Services
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(createdToken);
+                return new { token, user.ChangePassword};
             }
             return null;
         }

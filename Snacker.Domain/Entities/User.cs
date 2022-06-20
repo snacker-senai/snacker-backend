@@ -9,6 +9,7 @@ namespace Snacker.Domain.Entities
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        public bool ChangePassword { get; set; }
         [JsonIgnore]
         public long PersonId { get; set; }
         [Required]

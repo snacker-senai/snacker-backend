@@ -70,7 +70,8 @@ namespace Snacker.API.Controllers
                          Name = dto.Person.Name,
                          Phone = dto.Person.Phone,
                      },
-                     Password = generatedPassword
+                     Password = generatedPassword,
+                     ChangePassword = true
                 });
 
                 return Ok(_userService.GetById(user.Id));

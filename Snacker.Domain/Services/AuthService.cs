@@ -24,6 +24,33 @@ namespace Snacker.Domain.Services
             _billRepository = billRepository;
         }
 
+        public object ChangePassword(string email, string newPassword, string oldPassword)
+        {
+            var user = ValidateUser(email, oldPassword);
+            if (user != null)
+            {
+                user.Password = newPassword;
+                user.ChangePassword = false;
+                _userRepository.Update(user);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim(ClaimTypes.Role, user.UserType.Name),
+                            new Claim("RestaurantId", user.Person.RestaurantId.ToString())
+                    }, JwtBearerDefaults.AuthenticationScheme),
+                    Expires = DateTime.UtcNow.AddYears(6),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(createdToken);
+                return new { token, user.ChangePassword };
+            }
+            return null;
+        }
+
         public object GenerateClientToken(long tableId)
         {
             var table = _tableRepository.Select(tableId);
@@ -88,7 +115,7 @@ namespace Snacker.Domain.Services
                     };
                     var createdToken = tokenHandler.CreateToken(tokenDescriptor);
                     token = tokenHandler.WriteToken(createdToken);
-                    return new { token, user.ChangePassword};
+                    return new { token, user.ChangePassword };
                 }
                 return new { token, user.ChangePassword };
             }

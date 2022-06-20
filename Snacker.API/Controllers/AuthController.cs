@@ -30,6 +30,17 @@ namespace Snacker.API.Controllers
             return Ok(token);
         }
 
+
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordDTO changePassword)
+        {
+            var token = _authService.ChangePassword(changePassword.Email, changePassword.NewPassword, changePassword.OldPassword);
+            if (token == null)
+                return NotFound("Incorrect email or password.");
+
+            return Ok(token);
+        }
+
         [Authorize(Roles = "Admin, Gerente, Garçom")]
         [HttpPost("GenerateClientToken")]
         public IActionResult GenerateClientToken([FromBody] long tableId)

@@ -14,15 +14,13 @@ namespace Snacker.API.Controllers
     {
         private readonly IBaseService<Restaurant> _baseRestaurantService;
         private readonly IBaseService<Address> _baseAddressService;
-        private readonly IBaseService<Person> _basePersonService;
         private readonly IUserService _userService;
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService, IBaseService<Person> basePersonService, IUserService userService)
+        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService, IUserService userService)
         {
             _baseRestaurantService = baseRestaurantService;
             _baseAddressService = baseAddressService;
-            _basePersonService = basePersonService;
             _userService = userService;
         }
 

@@ -71,22 +71,26 @@ namespace Snacker.Domain.Services
             var user = ValidateUser(email, password);
             if (user != null)
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenDescriptor = new SecurityTokenDescriptor
+                string token = null;
+                if (!user.ChangePassword)
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, user.UserType.Name),
-                        new Claim("RestaurantId", user.Person.RestaurantId.ToString())
-                    }, JwtBearerDefaults.AuthenticationScheme),
-                    Expires = DateTime.UtcNow.AddYears(6),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var createdToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(createdToken);
-                return new { token, user.ChangePassword};
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim(ClaimTypes.Role, user.UserType.Name),
+                            new Claim("RestaurantId", user.Person.RestaurantId.ToString())
+                        }, JwtBearerDefaults.AuthenticationScheme),
+                        Expires = DateTime.UtcNow.AddYears(6),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+                    token = tokenHandler.WriteToken(createdToken);
+                    return new { token, user.ChangePassword};
+                }
+                return new { token, user.ChangePassword };
             }
             return null;
         }

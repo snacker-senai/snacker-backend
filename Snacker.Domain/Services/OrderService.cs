@@ -36,7 +36,8 @@ namespace Snacker.Domain.Services
                 {
                     OrderId = order.Id,
                     ProductId = productWithQuantity.ProductId,
-                    Quantity = productWithQuantity.Quantity
+                    Quantity = productWithQuantity.Quantity,
+                    Details = productWithQuantity.Details
                 });
             }
             return _orderRepository.Select(order.Id);

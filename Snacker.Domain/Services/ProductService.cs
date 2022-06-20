@@ -64,8 +64,11 @@ namespace Snacker.Domain.Services
                         quantity += orderHasProduct.Quantity;
                     }
                 }
-                var dto = new ProductTopSellingDTO(product, quantity);
-                result.Add(dto);
+                if (quantity != 0)
+                {
+                    var dto = new ProductTopSellingDTO(product, quantity);
+                    result.Add(dto);
+                }
             }
             return result.OrderByDescending(p => p.Quantity).ToList();
         }

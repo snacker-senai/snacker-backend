@@ -4,7 +4,6 @@ using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
-using System.Linq;
 
 namespace Snacker.API.Controllers
 {
@@ -14,7 +13,6 @@ namespace Snacker.API.Controllers
     {
         private readonly ITableService _tableService;
         private readonly IAuthService _authService;
-        public const int pageSize = 15;
 
         public TableController(ITableService tableService, IAuthService authService)
         {
@@ -74,18 +72,9 @@ namespace Snacker.API.Controllers
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization, int? page)
         {
-            try
-            {
-                var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
-                return Ok(_tableService.GetFromRestaurant(restaurantId).Skip((page.HasValue ? page.Value - 1 : 0) * pageSize)
-                                             .Take(pageSize)
-                                             .ToList());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return Execute(() => _tableService.GetFromRestaurant(restaurantId));
         }
 
         [Authorize(Roles = "Gerente")]

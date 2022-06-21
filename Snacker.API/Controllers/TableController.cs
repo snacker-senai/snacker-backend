@@ -78,14 +78,9 @@ namespace Snacker.API.Controllers
             {
                 var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 
-                var tables = _tableService.GetFromRestaurant(restaurantId);
-                decimal pageQuantity = tables.Count / pageSize;
-                var totalPages = Math.Ceiling(pageQuantity);
-                var data = tables.Skip((page.HasValue ? page.Value - 1 : 0) * pageSize)
-                                              .Take(pageSize)
-                                              .ToList();
-
-                return Ok(new { data, totalPages });
+                return Ok(_tableService.GetFromRestaurant(restaurantId).Skip((page.HasValue ? page.Value - 1 : 0) * pageSize)
+                                             .Take(pageSize)
+                                             .ToList());
             }
             catch (Exception ex)
             {

@@ -70,7 +70,7 @@ namespace Snacker.API.Controllers
 
         [Authorize(Roles = "Gerente")]
         [HttpGet("FromRestaurant")]
-        public IActionResult GetFromRestaurant([FromHeader] string authorization, int? page)
+        public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
             var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
 

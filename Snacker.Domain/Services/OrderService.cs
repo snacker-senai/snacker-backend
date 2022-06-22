@@ -27,7 +27,7 @@ namespace Snacker.Domain.Services
                 OrderStatusId = 1,
                 TableId = tableId,
                 BillId = bill.Id,
-                CreatedAt = DateTime.Now
+                CreatedAt = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"))
             };
             _orderRepository.Insert(order);
             foreach (var productWithQuantity in dto.ProductsWithQuantity)

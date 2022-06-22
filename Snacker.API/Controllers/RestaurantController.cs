@@ -82,7 +82,7 @@ namespace Snacker.API.Controllers
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("snacker.contato@gmail.com", "snacker123");
+                client.Credentials = new NetworkCredential("snacker.contato@gmail.com", "ftnxjazqxocutimy");
                 client.Send("snacker.contato@gmail.com", user.Email, "Snacker - Nova Conta", $"Olá, {user.Person.Name}. A senha de acesso para sua conta Snacker é {user.Password}");
 
                 return Ok(_userService.GetById(user.Id));

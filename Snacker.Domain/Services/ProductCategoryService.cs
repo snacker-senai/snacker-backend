@@ -25,10 +25,20 @@ namespace Snacker.Domain.Services
             var result = new List<ProductCategoryWithRelationshipDTO>();
             foreach (var item in itens)
             {
-                if (item.Products.Any())
+                if (item.Active)
                 {
-                    var dto = new ProductCategoryWithRelationshipDTO(item);
-                    result.Add(dto);
+                    foreach (var product in item.Products)
+                    {
+                        if (!product.Active)
+                        {
+                            item.Products.Remove(product);
+                        }
+                    }
+                    if (item.Products.Any())
+                    {
+                        var dto = new ProductCategoryWithRelationshipDTO(item);
+                        result.Add(dto);
+                    }
                 }
             }
             return result;

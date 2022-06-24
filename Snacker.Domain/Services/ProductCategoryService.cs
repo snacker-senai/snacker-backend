@@ -19,10 +19,10 @@ namespace Snacker.Domain.Services
             return _productCategoryRepository.SelectFromRestaurant(restaurantId);
         }
 
-        public ICollection<object> GetWithProducts(long restaurantId)
+        public ICollection<ProductCategoryWithRelationshipDTO> GetWithProducts(long restaurantId)
         {
             var itens = _productCategoryRepository.SelectWithProducts(restaurantId);
-            var result = new List<object>();
+            var result = new List<ProductCategoryWithRelationshipDTO>();
             foreach (var item in itens)
             {
                 if (item.Products.Any())

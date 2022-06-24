@@ -1,11 +1,12 @@
-﻿using Snacker.Domain.Entities;
+﻿using Snacker.Domain.DTOs;
+using Snacker.Domain.Entities;
 using System.Collections.Generic;
 
 namespace Snacker.Domain.Interfaces
 {
     public interface IProductCategoryService : IBaseService<ProductCategory>
     {
-        ICollection<object> GetWithProducts(long restaurantId);
+        ICollection<ProductCategoryWithRelationshipDTO> GetWithProducts(long restaurantId);
         ICollection<ProductCategory> GetFromRestaurant(long restaurantId);
     }
 }

@@ -4,6 +4,7 @@ using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
+using System.Linq;
 
 namespace Snacker.API.Controllers
 {
@@ -12,11 +13,13 @@ namespace Snacker.API.Controllers
     public class ProductCategoryController : ControllerBase
     {
         private readonly IProductCategoryService _productCategoryService;
+        private readonly IProductService _productService;
         private readonly IAuthService _authService;
 
-        public ProductCategoryController(IProductCategoryService productCategoryService, IAuthService authService)
+        public ProductCategoryController(IProductCategoryService productCategoryService, IProductService productService, IAuthService authService)
         {
             _productCategoryService = productCategoryService;
+            _productService = productService;
             _authService = authService;
         }
 
@@ -106,6 +109,25 @@ namespace Snacker.API.Controllers
                 return NotFound();
 
             productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            if (!productCategory.Active)
+            {
+                var productCategoryWithProducts = _productCategoryService.GetWithProducts(productCategory.RestaurantId).Where(p => p.Id == productCategory.Id).FirstOrDefault();
+                foreach (var product in productCategoryWithProducts.Products)
+                {
+                    _productService.Update<ProductValidator>(new Product
+                    {
+                        Id = product.Id,
+                        Active = productCategory.Active,
+                        Description = product.Description,
+                        Image = product.Image,
+                        Name = product.Name,
+                        Price = product.Price,
+                        ProductCategoryId = productCategory.Id,
+                        RestaurantId = productCategory.RestaurantId
+                    });
+                }
+            }
 
             return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
         }

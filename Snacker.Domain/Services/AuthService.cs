@@ -95,10 +95,16 @@ namespace Snacker.Domain.Services
 
         public object Login(string email, string password)
         {
+            string token = null;
+            string message = null;
             var user = ValidateUser(email, password);
             if (user != null)
             {
-                string token = null;
+                if (!user.Person.Restaurant.Active)
+                {
+                    message = "Não é possível se conectar pois o restaurante está inativo";
+                    return new { token, user.ChangePassword, message };
+                }
                 if (!user.ChangePassword)
                 {
                     var tokenHandler = new JwtSecurityTokenHandler();
@@ -115,9 +121,9 @@ namespace Snacker.Domain.Services
                     };
                     var createdToken = tokenHandler.CreateToken(tokenDescriptor);
                     token = tokenHandler.WriteToken(createdToken);
-                    return new { token, user.ChangePassword };
+                    return new { token, user.ChangePassword, message };
                 }
-                return new { token, user.ChangePassword };
+                return new { token, user.ChangePassword, message };
             }
             return null;
         }

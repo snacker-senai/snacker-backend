@@ -105,31 +105,39 @@ namespace Snacker.API.Controllers
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {
-            if (productCategory == null)
-                return NotFound();
-
-            productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
-
-            if (!productCategory.Active)
+            try
             {
-                var productCategoryWithProducts = _productCategoryService.GetWithProducts(productCategory.RestaurantId).Where(p => p.Id == productCategory.Id).FirstOrDefault();
-                foreach (var product in productCategoryWithProducts.Products)
+                if (productCategory == null)
+                    return NotFound();
+
+                productCategory.RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+                if (!productCategory.Active)
                 {
-                    _productService.Update<ProductValidator>(new Product
+                    var productCategoryWithProducts = _productCategoryService.GetWithProducts(productCategory.RestaurantId).Where(p => p.Id == productCategory.Id).FirstOrDefault();
+                    foreach (var product in productCategoryWithProducts.Products)
                     {
-                        Id = product.Id,
-                        Active = productCategory.Active,
-                        Description = product.Description,
-                        Image = product.Image,
-                        Name = product.Name,
-                        Price = product.Price,
-                        ProductCategoryId = productCategory.Id,
-                        RestaurantId = productCategory.RestaurantId
-                    });
+                        _productService.Update<ProductValidator>(new Product
+                        {
+                            Id = product.Id,
+                            Active = productCategory.Active,
+                            Description = product.Description,
+                            Image = product.Image,
+                            Name = product.Name,
+                            Price = product.Price,
+                            ProductCategoryId = productCategory.Id,
+                            RestaurantId = productCategory.RestaurantId
+                        });
+                    }
                 }
+                _productCategoryService.Update<ProductCategoryValidator>(productCategory);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
 
-            return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
         }
 
         private IActionResult Execute(Func<object> func)

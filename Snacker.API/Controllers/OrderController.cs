@@ -15,15 +15,17 @@ namespace Snacker.API.Controllers
         private readonly IOrderService _orderService;
         private readonly IAuthService _authService;
         private readonly IBaseService<OrderStatus> _baseStatusService;
+        private readonly IBaseService<Table> _baseTableService;
 
-        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService)
+        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService, IBaseService<Table> baseTableService)
         {
             _orderService = orderService;
             _authService = authService;
             _baseStatusService = baseStatusService;
+            _baseTableService = baseTableService;
         }
 
-        [Authorize(Roles = "Cliente, Garçom")]
+        [Authorize(Roles = "Admin, Cliente, Gerente, Garçom")]
         [HttpPost]
         public IActionResult Create([FromHeader] string authorization, [FromBody] CreateOrderDTO dto)
         {
@@ -31,12 +33,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.Add<OrderValidator>(dto, tableId).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _orderService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -46,10 +50,18 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetById(id));
         }
 
+        [Authorize(Roles = "Admin, Gerente, Garçom")]
         [HttpGet("ByBill/{billId}")]
         public IActionResult GetByBill(long billId)
         {
             return Execute(() => _orderService.GetByBill(billId));
+        }
+
+        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [HttpGet("ByTable/{tableId}")]
+        public IActionResult GetByTable(long tableId)
+        {
+            return Execute(() => _orderService.GetByTable(tableId));
         }
 
         [Authorize(Roles = "Cliente")]
@@ -59,14 +71,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetByBill(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"))));
         }
 
-        [Authorize(Roles = "Gerente, Garçom, Cozinheiro")]
+        [Authorize(Roles = "Admin, Gerente, Garçom, Cozinheiro")]
         [HttpGet("ByStatus/{statusId}")]
         public IActionResult GetByStatus(long statusId)
         {
             return Execute(() => _orderService.GetByStatus(statusId));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente, Garçom, Cozinheiro")]
         [HttpPut("ChangeStatus/{orderId}/{statusId}")]
         public IActionResult ChangeOrderStatus(long orderId, long statusId)
         {

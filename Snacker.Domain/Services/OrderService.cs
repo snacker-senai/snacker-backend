@@ -58,6 +58,21 @@ namespace Snacker.Domain.Services
             return result;
         }
 
+        public ICollection<object> GetByTable(long tableId)
+        {
+            var itens = _orderRepository.SelectByTable(tableId);
+            var result = new List<object>();
+            foreach (var item in itens)
+            {
+                if (item.OrderHasProductCollection.Any())
+                {
+                    var dto = new OrderWithProductsDTO(item);
+                    result.Add(dto);
+                }
+            }
+            return result;
+        }
+
         public ICollection<object> GetByStatus(long statusId)
         {
             var itens = _orderRepository.SelectByStatus(statusId);

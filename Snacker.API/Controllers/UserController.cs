@@ -22,6 +22,7 @@ namespace Snacker.API.Controllers
             _personService = personService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] User user)
         {
@@ -31,6 +32,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.Add<UserValidator>(user).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] User user)
         {
@@ -40,6 +42,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.Update<UserValidator>(user));
         }
 
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
@@ -55,12 +58,14 @@ namespace Snacker.API.Controllers
             return new NoContentResult();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _userService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -70,7 +75,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.GetById(id));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -79,7 +84,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
         {
@@ -91,7 +96,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.Add<UserValidator>(user).Id);
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
         {

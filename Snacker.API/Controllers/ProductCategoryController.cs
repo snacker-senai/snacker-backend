@@ -23,6 +23,7 @@ namespace Snacker.API.Controllers
             _authService = authService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] ProductCategory productCategory)
         {
@@ -32,6 +33,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Add<ProductCategoryValidator>(productCategory).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] ProductCategory productCategory)
         {
@@ -41,21 +43,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Update<ProductCategoryValidator>(productCategory));
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            Execute(() =>
-            {
-                _productCategoryService.Delete(id);
-                return true;
-            });
-
-            return new NoContentResult();
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -71,6 +59,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetWithProducts(restaurantId));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -80,7 +69,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetById(id));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -89,7 +78,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {
@@ -101,7 +90,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Add<ProductCategoryValidator>(productCategory));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {

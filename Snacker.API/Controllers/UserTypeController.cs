@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
@@ -17,6 +18,7 @@ namespace Snacker.API.Controllers
             _baseUserTypeService = baseUserTypeService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] UserType userType)
         {
@@ -26,6 +28,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _baseUserTypeService.Add<UserTypeValidator>(userType).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] UserType userType)
         {
@@ -35,27 +38,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _baseUserTypeService.Update<UserTypeValidator>(userType));
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            Execute(() =>
-            {
-                _baseUserTypeService.Delete(id);
-                return true;
-            });
-
-            return new NoContentResult();
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _baseUserTypeService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {

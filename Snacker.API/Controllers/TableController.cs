@@ -20,6 +20,7 @@ namespace Snacker.API.Controllers
             _authService = authService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] Table table)
         {
@@ -29,6 +30,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.Add<TableValidator>(table).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] Table table)
         {
@@ -38,27 +40,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.Update<TableValidator>(table));
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            Execute(() =>
-            {
-                _tableService.Delete(id);
-                return true;
-            });
-
-            return new NoContentResult();
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _tableService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -68,7 +57,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.GetById(id));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -77,7 +66,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
         {
@@ -89,7 +78,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.Add<TableValidator>(table));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
         {

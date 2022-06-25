@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
@@ -26,6 +27,7 @@ namespace Snacker.API.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] CreateRestaurantDTO dto)
         {
@@ -94,6 +96,7 @@ namespace Snacker.API.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] Restaurant restaurant)
         {
@@ -113,27 +116,14 @@ namespace Snacker.API.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            Execute(() =>
-            {
-                _baseRestaurantService.Delete(id);
-                return true;
-            });
-
-            return new NoContentResult();
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _baseRestaurantService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {

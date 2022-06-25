@@ -20,6 +20,7 @@ namespace Snacker.API.Controllers
             _authService = authService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] Product product)
         {
@@ -29,6 +30,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.Add<ProductValidator>(product).Id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult Update([FromBody] Product product)
         {
@@ -38,27 +40,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.Update<ProductValidator>(product));
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            Execute(() =>
-            {
-                _productService.Delete(id);
-                return true;
-            });
-
-            return new NoContentResult();
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _productService.Get());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -68,7 +57,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.GetById(id));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -77,7 +66,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpGet("TopSelling")]
         public IActionResult GetTopSelling([FromHeader] string authorization,DateTime initialDate, DateTime finalDate)
         {
@@ -86,7 +75,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.GetTopSelling(restaurantId, initialDate,finalDate));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Product product, [FromHeader] string authorization)
         {
@@ -98,7 +87,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.Add<ProductValidator>(product));
         }
 
-        [Authorize(Roles = "Gerente")]
+        [Authorize(Roles = "Admin, Gerente")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] Product product, [FromHeader] string authorization)
         {

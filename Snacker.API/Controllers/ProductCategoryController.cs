@@ -104,19 +104,22 @@ namespace Snacker.API.Controllers
                 if (!productCategory.Active)
                 {
                     var productCategoryWithProducts = _productCategoryService.GetWithProducts(productCategory.RestaurantId).Where(p => p.Id == productCategory.Id).FirstOrDefault();
-                    foreach (var product in productCategoryWithProducts.Products)
+                    if (productCategoryWithProducts != null && productCategoryWithProducts.Products != null)
                     {
-                        _productService.Update<ProductValidator>(new Product
+                        foreach (var product in productCategoryWithProducts.Products)
                         {
-                            Id = product.Id,
-                            Active = productCategory.Active,
-                            Description = product.Description,
-                            Image = product.Image,
-                            Name = product.Name,
-                            Price = product.Price,
-                            ProductCategoryId = productCategory.Id,
-                            RestaurantId = productCategory.RestaurantId
-                        });
+                            _productService.Update<ProductValidator>(new Product
+                            {
+                                Id = product.Id,
+                                Active = productCategory.Active,
+                                Description = product.Description,
+                                Image = product.Image,
+                                Name = product.Name,
+                                Price = product.Price,
+                                ProductCategoryId = productCategory.Id,
+                                RestaurantId = productCategory.RestaurantId
+                            });
+                        }
                     }
                 }
                 _productCategoryService.Update<ProductCategoryValidator>(productCategory);

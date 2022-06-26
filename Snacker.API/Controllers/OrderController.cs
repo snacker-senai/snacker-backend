@@ -5,6 +5,7 @@ using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
+using System.Linq;
 
 namespace Snacker.API.Controllers
 {
@@ -15,14 +16,14 @@ namespace Snacker.API.Controllers
         private readonly IOrderService _orderService;
         private readonly IAuthService _authService;
         private readonly IBaseService<OrderStatus> _baseStatusService;
-        private readonly IBaseService<Table> _baseTableService;
+        private readonly IBaseService<Bill> _baseBillService;
 
-        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService, IBaseService<Table> baseTableService)
+        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService, IBaseService<Bill> baseBillService)
         {
             _orderService = orderService;
             _authService = authService;
             _baseStatusService = baseStatusService;
-            _baseTableService = baseTableService;
+            _baseBillService = baseBillService;
         }
 
         [Authorize(Roles = "Admin, Cliente, Gerente, Garçom")]
@@ -92,6 +93,23 @@ namespace Snacker.API.Controllers
 
                 order.OrderStatusId = status.Id;
                 _orderService.Update<OrderValidator>(order);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [HttpPut("CloseBill/{tableId}")]
+        public IActionResult CloseBill(long tableId)
+        {
+            try
+            {
+                var bill = _orderService.GetEntireOrderByTable(tableId).First().Bill;
+
+                _baseBillService.Update<BillValidator>(bill);
                 return Ok();
             }
             catch (Exception ex)

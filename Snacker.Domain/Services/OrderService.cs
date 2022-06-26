@@ -73,6 +73,11 @@ namespace Snacker.Domain.Services
             return result;
         }
 
+        public ICollection<Order> GetEntireOrderByTable(long tableId)
+        {
+            return _orderRepository.SelectByTable(tableId);
+        }
+
         public ICollection<object> GetByStatus(long statusId)
         {
             var itens = _orderRepository.SelectByStatus(statusId);

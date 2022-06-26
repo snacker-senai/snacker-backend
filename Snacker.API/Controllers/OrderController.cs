@@ -108,7 +108,7 @@ namespace Snacker.API.Controllers
             try
             {
                 var bill = _orderService.GetEntireOrderByTable(tableId).First().Bill;
-
+                bill.Active = false;
                 _baseBillService.Update<BillValidator>(bill);
                 return Ok();
             }

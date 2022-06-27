@@ -13,11 +13,13 @@ namespace Snacker.API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IBaseService<Table> _baseTableService;
+        private readonly IBaseService<Bill> _baseBillService;
 
-        public AuthController(IAuthService authService, IBaseService<Table> baseTableService)
+        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBaseService<Bill> baseBillService)
         {
             _authService = authService;
             _baseTableService = baseTableService;
+            _baseBillService = baseBillService;
         }
 
         [HttpPost("Login")]
@@ -53,7 +55,12 @@ namespace Snacker.API.Controllers
         public IActionResult GetClientSessionInfo([FromHeader] string authorization)
         {
             var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
-
+            var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
+            var bill = (Bill)_baseBillService.GetById(billId);
+            if (!bill.Active)
+            {
+                return Unauthorized();
+            }
             return Execute(() => _baseTableService.GetById(tableId));
         }
 

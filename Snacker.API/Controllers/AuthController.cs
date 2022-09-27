@@ -73,13 +73,14 @@ namespace Snacker.API.Controllers
                 var role = _authService.GetTokenValue(authorization.Split(" ")[1], "role");
                 if (role == "Cliente")
                 {
-                    return Ok (new
+                    return Ok(new
                     {
                         Role = role,
-                        TableId = _authService.GetTokenValue(authorization.Split(" ")[1], "TableId"),
+                        TableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")),
                         RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId")),
                         BillId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId")),
-                        Color = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "Color"))
+                        Color = _authService.GetTokenValue(authorization.Split(" ")[1], "Color"),
+                        Table = _baseTableService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")))
                     });
                 }
                 else

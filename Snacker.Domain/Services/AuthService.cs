@@ -15,13 +15,15 @@ namespace Snacker.Domain.Services
         private readonly IUserRepository _userRepository;
         private readonly IBaseRepository<Table> _tableRepository;
         private readonly IBillRepository _billRepository;
+        private readonly IThemeRepository _themeRepository;
         private readonly byte[] key = Encoding.ASCII.GetBytes("12D1738B9A6444BB9E04BB535E3B83C9");
 
-        public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository, IBillRepository billRepository)
+        public AuthService(IUserRepository userRepository, IBaseRepository<Table> tableRepository, IBillRepository billRepository, IThemeRepository themeRepository)
         {
             _userRepository = userRepository;
             _tableRepository = tableRepository;
             _billRepository = billRepository;
+            _themeRepository = themeRepository;
         }
 
         public object ChangePassword(string email, string newPassword, string oldPassword)
@@ -67,6 +69,8 @@ namespace Snacker.Domain.Services
             }
             if (table != null)
             {
+                var theme = _themeRepository.SelectFromRestaurant(table.RestaurantId);
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
@@ -75,7 +79,8 @@ namespace Snacker.Domain.Services
                         new Claim(ClaimTypes.Role, "Cliente"),
                         new Claim("TableId", table.Id.ToString()),
                         new Claim("RestaurantId", table.RestaurantId.ToString()),
-                        new Claim("BillId", billId.ToString())
+                        new Claim("BillId", billId.ToString()),
+                        new Claim("Color", theme.Any() ? theme.FirstOrDefault().Color : "#1154A3")
                     }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddYears(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -14,12 +14,14 @@ namespace Snacker.API.Controllers
         private readonly IAuthService _authService;
         private readonly IBaseService<Table> _baseTableService;
         private readonly IBaseService<Bill> _baseBillService;
+        private readonly IThemeService _themeService;
 
-        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBaseService<Bill> baseBillService)
+        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBaseService<Bill> baseBillService, IThemeService themeService)
         {
             _authService = authService;
             _baseTableService = baseTableService;
             _baseBillService = baseBillService;
+            _themeService = themeService;
         }
 
         [HttpPost("Login")]
@@ -79,7 +81,8 @@ namespace Snacker.API.Controllers
                         TableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")),
                         RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId")),
                         BillId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId")),
-                        Color = _authService.GetTokenValue(authorization.Split(" ")[1], "Color"),
+                        ThemeId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId")),
+                        Theme = _themeService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId"))),
                         Table = _baseTableService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")))
                     });
                 }

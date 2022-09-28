@@ -24,6 +24,7 @@ namespace Snacker.Infrastructure.Context
         public DbSet<OrderHasProduct> OrderHasProductCollection { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<Theme> Themes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,7 @@ namespace Snacker.Infrastructure.Context
             modelBuilder.Entity<OrderHasProduct>(new OrderHasProductMap().Configure);
             modelBuilder.Entity<Bill>(new BillMap().Configure);
             modelBuilder.Entity<OrderStatus>(new OrderStatusMap().Configure);
+            modelBuilder.Entity<Theme>(new ThemeMap().Configure);
         }
     }
 }

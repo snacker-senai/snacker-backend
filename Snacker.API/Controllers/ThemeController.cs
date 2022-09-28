@@ -20,7 +20,6 @@ namespace Snacker.API.Controllers
             _authService = authService;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] Theme theme)
         {
@@ -40,14 +39,12 @@ namespace Snacker.API.Controllers
             return Execute(() => _themeService.Update<ThemeValidator>(theme));
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _themeService.Get());
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {

@@ -16,6 +16,36 @@ namespace Snacker.Infrastructure.Mapping
             builder.Property(prop => prop.RestaurantId)
                 .IsRequired()
                 .HasColumnName("restaurant_id");
+
+            builder.Property(prop => prop.Color)
+             .HasConversion(prop => prop.ToString(), prop => prop)
+             .IsRequired()
+             .HasColumnName("color")
+             .HasColumnType("varchar(45)");
+
+            builder.Property(prop => prop.SecondaryColor)
+             .HasConversion(prop => prop.ToString(), prop => prop)
+             .IsRequired()
+             .HasColumnName("secondary_color")
+             .HasColumnType("varchar(45)");
+
+            builder.Property(prop => prop.FontColor)
+             .HasConversion(prop => prop.ToString(), prop => prop)
+             .IsRequired()
+             .HasColumnName("font_color")
+             .HasColumnType("varchar(45)");
+
+            builder.Property(prop => prop.SecondaryFontColor)
+             .HasConversion(prop => prop.ToString(), prop => prop)
+             .IsRequired()
+             .HasColumnName("secondary_font_color")
+             .HasColumnType("varchar(45)");
+
+            builder.Property(prop => prop.Icon)
+             .HasConversion(prop => prop.ToString(), prop => prop)
+             .IsRequired()
+             .HasColumnName("icon")
+             .HasColumnType("varchar(255)");
         }
     }
 }

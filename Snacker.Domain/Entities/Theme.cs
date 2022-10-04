@@ -13,6 +13,7 @@ namespace Snacker.Domain.Entities
         public string FontColor { get; set; }
         [Required]
         public string SecondaryFontColor { get; set; }
+        public string TertiaryFontColor { get; set; }
         [Required]
         public string Icon { get; set; }
         [Required]

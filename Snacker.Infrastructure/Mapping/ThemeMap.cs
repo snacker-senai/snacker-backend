@@ -41,6 +41,12 @@ namespace Snacker.Infrastructure.Mapping
              .HasColumnName("secondary_font_color")
              .HasColumnType("varchar(45)");
 
+            builder.Property(prop => prop.TertiaryFontColor)
+            .HasConversion(prop => prop.ToString(), prop => prop)
+            .IsRequired()
+            .HasColumnName("tertiary_font_color")
+            .HasColumnType("varchar(45)");
+
             builder.Property(prop => prop.Icon)
              .HasConversion(prop => prop.ToString(), prop => prop)
              .IsRequired()

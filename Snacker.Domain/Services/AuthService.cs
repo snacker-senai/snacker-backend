@@ -112,6 +112,8 @@ namespace Snacker.Domain.Services
                 }
                 if (!user.ChangePassword)
                 {
+                    var theme = _themeRepository.SelectFromRestaurant(user.Person.RestaurantId).FirstOrDefault();
+
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
@@ -119,7 +121,8 @@ namespace Snacker.Domain.Services
                         {
                             new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Role, user.UserType.Name),
-                            new Claim("RestaurantId", user.Person.RestaurantId.ToString())
+                            new Claim("RestaurantId", user.Person.RestaurantId.ToString()),
+                            new Claim("ThemeId", theme.Id.ToString())
                         }, JwtBearerDefaults.AuthenticationScheme),
                         Expires = DateTime.UtcNow.AddYears(6),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

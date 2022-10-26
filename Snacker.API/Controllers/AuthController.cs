@@ -92,7 +92,9 @@ namespace Snacker.API.Controllers
                     {
                         Role = role,
                         Email = _authService.GetTokenValue(authorization.Split(" ")[1], "email"),
-                        RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"))
+                        RestaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId")),
+                        ThemeId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId")),
+                        Theme = _themeService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId")))
                     });
                 }
             }

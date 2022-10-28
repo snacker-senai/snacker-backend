@@ -13,6 +13,7 @@ namespace Snacker.Domain.Entities
         [Required]
         public string Phone { get; set; }
         public string Document { get; set; }
+        public string ProfileImage { get; set; }
         [Required]
         public long RestaurantId { get; set; }
         [JsonIgnore]

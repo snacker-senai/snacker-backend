@@ -18,11 +18,13 @@ namespace Snacker.Domain.DTOs
             Document = person.Document;
             Restaurant = new RestaurantDTO(person.Restaurant);
             RestaurantId = person.RestaurantId;
+            ProfileImage = person.ProfileImage;
         }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
         public string Document { get; set; }
+        public string ProfileImage { get; set; }
         public RestaurantDTO Restaurant { get; set; }
         public long RestaurantId { get; set; }
     }

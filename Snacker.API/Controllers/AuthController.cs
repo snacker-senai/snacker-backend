@@ -45,7 +45,7 @@ namespace Snacker.API.Controllers
             return Ok(token);
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [Authorize(Roles = "Admin, Gestão, Entrega")]
         [HttpPost("GenerateClientToken/{tableId}")]
         public IActionResult GenerateClientToken(long tableId)
         {

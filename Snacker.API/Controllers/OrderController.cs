@@ -26,7 +26,7 @@ namespace Snacker.API.Controllers
             _baseBillService = baseBillService;
         }
 
-        [Authorize(Roles = "Admin, Cliente, Gerente, Garçom")]
+        [Authorize(Roles = "Admin, Cliente, Gestão, Entrega")]
         [HttpPost]
         public IActionResult Create([FromHeader] string authorization, [FromBody] CreateOrderDTO dto)
         {
@@ -51,14 +51,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [Authorize(Roles = "Admin, Gestão, Entrega")]
         [HttpGet("ByBill/{billId}")]
         public IActionResult GetByBill(long billId)
         {
             return Execute(() => _orderService.GetByBill(billId));
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [Authorize(Roles = "Admin, Gestão, Entrega")]
         [HttpGet("ByTable/{tableId}")]
         public IActionResult GetByTable(long tableId)
         {
@@ -72,14 +72,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _orderService.GetByBill(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"))));
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom, Cozinheiro")]
+        [Authorize(Roles = "Admin, Gestão, Entrega, Preparo")]
         [HttpGet("ByStatus/{statusId}")]
         public IActionResult GetByStatus(long statusId)
         {
             return Execute(() => _orderService.GetByStatus(statusId));
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom, Cozinheiro")]
+        [Authorize(Roles = "Admin, Gestão, Entrega, Preparo")]
         [HttpPut("ChangeStatus/{orderId}/{statusId}")]
         public IActionResult ChangeOrderStatus(long orderId, long statusId)
         {
@@ -101,7 +101,7 @@ namespace Snacker.API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin, Gerente, Garçom")]
+        [Authorize(Roles = "Admin, Gestão, Entrega")]
         [HttpPut("CloseBill/{tableId}")]
         public IActionResult CloseBill(long tableId)
         {

@@ -42,7 +42,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.Update<UserValidator>(user));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
@@ -75,7 +75,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -84,7 +84,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
         {
@@ -96,7 +96,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _userService.Add<UserValidator>(user).Id);
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] User user, [FromHeader] string authorization)
         {

@@ -69,7 +69,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -78,7 +78,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {
@@ -90,7 +90,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Add<ProductCategoryValidator>(productCategory));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] ProductCategory productCategory, [FromHeader] string authorization)
         {

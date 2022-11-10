@@ -38,14 +38,14 @@ namespace Snacker.API.Controllers
             return Execute(() => _baseUserTypeService.Update<UserTypeValidator>(userType));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet]
         public IActionResult Get()
         {
             return Execute(() => _baseUserTypeService.Get());
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {

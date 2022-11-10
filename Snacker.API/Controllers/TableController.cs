@@ -57,7 +57,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -66,7 +66,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
         {
@@ -78,7 +78,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.Add<TableValidator>(table));
         }
 
-        [Authorize(Roles = "Admin, Gerente")]
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
         {

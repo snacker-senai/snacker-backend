@@ -12,11 +12,13 @@ namespace Snacker.Domain.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IBaseRepository<OrderHasProduct> _orderHasProductRepository;
         private readonly IBillRepository _billRepository;
-        public OrderService(IOrderRepository orderRepository, IBaseRepository<OrderHasProduct> orderHasProductRepository, IBillRepository billRepository) : base(orderRepository)
+        private readonly IProductRepository _productRepository;
+        public OrderService(IOrderRepository orderRepository, IBaseRepository<OrderHasProduct> orderHasProductRepository, IBillRepository billRepository, IProductRepository productRepository) : base(orderRepository)
         {
             _orderRepository = orderRepository;
             _orderHasProductRepository = orderHasProductRepository;
             _billRepository = billRepository;
+            _productRepository = productRepository;
         }
 
         public Order Add<TValidator>(CreateOrderDTO dto, long tableId)
@@ -39,8 +41,8 @@ namespace Snacker.Domain.Services
                     Quantity = productWithQuantity.Quantity,
                     Details = productWithQuantity.Details,
                 };
-
-                if (!productWithQuantity.PreReady) orderHasProduct.OrderStatusId = 1;
+                var product = _productRepository.Select(productWithQuantity.ProductId);
+                if (!product.PreReady) orderHasProduct.OrderStatusId = 1;
                 else orderHasProduct.OrderStatusId = 2;
 
                 _orderHasProductRepository.Insert(orderHasProduct);

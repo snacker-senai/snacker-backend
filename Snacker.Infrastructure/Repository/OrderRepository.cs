@@ -27,5 +27,10 @@ namespace Snacker.Infrastructure.Repository
         {
             return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).ToList();
         }
+
+        public override Order Select(long id)
+        {
+            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).Where(p => p.Id == id).FirstOrDefault();
+        }
     }
 }

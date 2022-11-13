@@ -87,14 +87,23 @@ namespace Snacker.Domain.Services
 
         public ICollection<object> GetByStatus(long statusId)
         {
-            var itens = _orderRepository.SelectByStatus(statusId);
+            var orders = _orderRepository.SelectByStatus(statusId);
             var result = new List<object>();
-            foreach (var item in itens)
+            foreach (var order in orders)
             {
-                if (item.OrderHasProductCollection.Any())
+                if (order.OrderHasProductCollection.Any())
                 {
-                    var dto = new OrderWithProductsDTO(item);
-                    result.Add(dto);
+                    foreach (var orderHasProduct in order.OrderHasProductCollection)
+                    {
+                        if (orderHasProduct.OrderStatusId != statusId)
+                        {
+                            order.OrderHasProductCollection.Remove(orderHasProduct);
+                        }
+                    }
+                    if (order.OrderHasProductCollection.Any())
+                    {
+                        result.Add(new OrderWithProductsDTO(order));
+                    }
                 }
             }
             return result;

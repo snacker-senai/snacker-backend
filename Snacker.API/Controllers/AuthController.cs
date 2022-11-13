@@ -59,10 +59,12 @@ namespace Snacker.API.Controllers
             var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
             var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
             var bill = (Bill)_baseBillService.GetById(billId);
+
             if (!bill.Active)
             {
                 return Unauthorized();
             }
+
             return Execute(() => _baseTableService.GetById(tableId));
         }
 

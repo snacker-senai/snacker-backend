@@ -49,6 +49,11 @@ namespace Snacker.Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnName("active")
                 .HasColumnType("boolean");
+
+            builder.Property(prop => prop.PreReady)
+                .IsRequired()
+                .HasColumnName("preReady")
+                .HasColumnType("boolean");
         }
     }
 }

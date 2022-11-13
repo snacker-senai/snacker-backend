@@ -32,13 +32,18 @@ namespace Snacker.Domain.Services
             _orderRepository.Insert(order);
             foreach (var productWithQuantity in dto.ProductsWithQuantity)
             {
-                _orderHasProductRepository.Insert(new OrderHasProduct
+                var orderHasProduct = new OrderHasProduct
                 {
                     OrderId = order.Id,
                     ProductId = productWithQuantity.ProductId,
                     Quantity = productWithQuantity.Quantity,
-                    Details = productWithQuantity.Details
-                });
+                    Details = productWithQuantity.Details,
+                };
+
+                if (!productWithQuantity.PreReady) orderHasProduct.OrderStatusId = 1;
+                else orderHasProduct.OrderStatusId = 2;
+
+                _orderHasProductRepository.Insert(orderHasProduct);
             }
             return _orderRepository.Select(order.Id);
         }

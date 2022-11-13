@@ -12,6 +12,12 @@ namespace Snacker.Domain.DTOs
             ProductName = orderHasProduct.Product.Name;
             Price = orderHasProduct.Product.Price;
             Details = orderHasProduct.Details;
+            PreReady = orderHasProduct.Product.PreReady;
+            IndividualOrderStatus = new OrderStatusDTO
+            {
+                Id = orderHasProduct.OrderStatus.Id,
+                Name = orderHasProduct.OrderStatus.Name
+            };
         }
 
         public long ProductId { get; set; }
@@ -19,5 +25,7 @@ namespace Snacker.Domain.DTOs
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public string Details { get; set; }
+        public bool PreReady { get; set; }
+        public OrderStatusDTO IndividualOrderStatus { get; set; }
     }
 }

@@ -32,6 +32,11 @@ namespace Snacker.Infrastructure.Mapping
                 .IsRequired()
                 .HasColumnName("quantity")
                 .HasColumnType("int");
+
+            builder.HasOne(prop => prop.OrderStatus).WithMany(a => a.OrderHasProductList).HasForeignKey(prop => prop.OrderStatusId);
+            builder.Property(prop => prop.OrderStatusId)
+                .IsRequired()
+                .HasColumnName("order_status_id");
         }
     }
 }

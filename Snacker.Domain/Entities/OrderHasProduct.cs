@@ -16,5 +16,9 @@ namespace Snacker.Domain.Entities
         public long ProductId { get; set; }
         [JsonIgnore]
         public Product Product { get; set; }
+        [Required]
+        public long OrderStatusId { get; set; }
+        [JsonIgnore]
+        public OrderStatus OrderStatus { get; set; }
     }
 }

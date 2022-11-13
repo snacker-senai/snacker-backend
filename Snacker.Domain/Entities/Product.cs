@@ -17,6 +17,8 @@ namespace Snacker.Domain.Entities
         [Required]
         public bool Active { get; set; }
         [Required]
+        public bool PreReady { get; set; }
+        [Required]
         public long ProductCategoryId { get; set; }
         [Required]
         public long RestaurantId { get; set; }

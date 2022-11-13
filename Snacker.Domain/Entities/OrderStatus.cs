@@ -10,5 +10,7 @@ namespace Snacker.Domain.Entities
         public string Name { get; set; }
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public ICollection<OrderHasProduct> OrderHasProductList { get; set; }
     }
 }

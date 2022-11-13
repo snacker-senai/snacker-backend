@@ -17,13 +17,15 @@ namespace Snacker.API.Controllers
         private readonly IAuthService _authService;
         private readonly IBaseService<OrderStatus> _baseStatusService;
         private readonly IBaseService<Bill> _baseBillService;
+        private readonly IBaseService<OrderHasProduct> _baseOrderHasProductService;
 
-        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService, IBaseService<Bill> baseBillService)
+        public OrderController(IOrderService orderService, IAuthService authService, IBaseService<OrderStatus> baseStatusService, IBaseService<Bill> baseBillService, IBaseService<OrderHasProduct> baseOrderHasProductService)
         {
             _orderService = orderService;
             _authService = authService;
             _baseStatusService = baseStatusService;
             _baseBillService = baseBillService;
+            _baseOrderHasProductService = baseOrderHasProductService;
         }
 
         [Authorize(Roles = "Admin, Cliente, Gestão, Entrega")]
@@ -93,6 +95,28 @@ namespace Snacker.API.Controllers
 
                 order.OrderStatusId = status.Id;
                 _orderService.Update<OrderValidator>(order);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize(Roles = "Admin, Gestão, Entrega, Preparo")]
+        [HttpPut("ChangeItemStatus/{orderHasProductId}/{statusId}")]
+        public IActionResult ChangeOrderItemStatus(long orderHasProductId, long statusId)
+        {
+            try
+            {
+                var orderHasProduct = (OrderHasProduct)_baseOrderHasProductService.GetById(orderHasProductId);
+                var status = (OrderStatus)_baseStatusService.GetById(statusId);
+
+                if (orderHasProduct == null || status == null)
+                    return NotFound();
+
+                orderHasProduct.OrderStatusId = status.Id;
+                _baseOrderHasProductService.Update<OrderHasProductValidator>(orderHasProduct);
                 return Ok();
             }
             catch (Exception ex)

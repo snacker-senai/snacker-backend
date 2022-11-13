@@ -15,12 +15,12 @@ namespace Snacker.Infrastructure.Repository
 
         public ICollection<Order> SelectByBill(long billId)
         {
-            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Where(p => p.BillId == billId).ToList();
+            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).Where(p => p.BillId == billId).ToList();
         }
 
         public ICollection<Order> SelectByTable(long tableId)
         {
-            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Where(p => p.Bill.Active && p.Bill.TableId == tableId).ToList();
+            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).Where(p => p.Bill.Active && p.Bill.TableId == tableId).ToList();
         }
 
         public ICollection<Order> SelectByStatus(long statusId)

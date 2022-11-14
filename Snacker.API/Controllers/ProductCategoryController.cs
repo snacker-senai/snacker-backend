@@ -50,7 +50,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _productCategoryService.Get());
         }
 
-        [Authorize(Roles = "Cliente, Admin, Garçom, Cozinheiro, Gerente")]
+        [Authorize(Roles = "Cliente, Admin, Entrega, Preparo, Gestão")]
         [HttpGet("WithProducts")]
         public IActionResult GetWithProducts([FromHeader] string authorization)
         {

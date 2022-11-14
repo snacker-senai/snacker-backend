@@ -57,7 +57,6 @@ namespace Snacker.API.Controllers
             return Execute(() => _tableService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gestão")]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {

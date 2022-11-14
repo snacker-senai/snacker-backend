@@ -67,6 +67,15 @@ namespace Snacker.API.Controllers
         }
 
         [Authorize(Roles = "Admin, Gestão")]
+        [HttpGet("cum")]
+        public IActionResult cum([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _tableService.GetFromRestaurant(restaurantId));
+        }
+
+        [Authorize(Roles = "Admin, Gestão")]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Table table, [FromHeader] string authorization)
         {

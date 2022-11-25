@@ -31,6 +31,7 @@ namespace Snacker.Domain.Services
             var user = ValidateUser(email, oldPassword);
             if (user != null)
             {
+                var theme = _themeRepository.SelectFromRestaurant(user.Person.RestaurantId).FirstOrDefault();
                 user.Password = newPassword;
                 user.ChangePassword = false;
                 _userRepository.Update(user);
@@ -41,7 +42,8 @@ namespace Snacker.Domain.Services
                     {
                             new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Role, user.UserType.Name),
-                            new Claim("RestaurantId", user.Person.RestaurantId.ToString())
+                            new Claim("RestaurantId", user.Person.RestaurantId.ToString()),
+                            new Claim("ThemeId", theme.Id.ToString())
                     }, JwtBearerDefaults.AuthenticationScheme),
                     Expires = DateTime.UtcNow.AddYears(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

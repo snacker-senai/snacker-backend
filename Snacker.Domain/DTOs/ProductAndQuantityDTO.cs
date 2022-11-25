@@ -8,6 +8,7 @@ namespace Snacker.Domain.DTOs
         public ProductAndQuantityDTO(OrderHasProduct orderHasProduct)
         {
             ProductId = orderHasProduct.ProductId;
+            OrderHasProductId = orderHasProduct.Id;
             Quantity = orderHasProduct.Quantity;
             ProductName = orderHasProduct.Product.Name;
             Price = orderHasProduct.Product.Price;
@@ -21,6 +22,7 @@ namespace Snacker.Domain.DTOs
         }
 
         public long ProductId { get; set; }
+        public long OrderHasProductId { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }

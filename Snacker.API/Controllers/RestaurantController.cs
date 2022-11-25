@@ -18,13 +18,15 @@ namespace Snacker.API.Controllers
         private readonly IBaseService<Restaurant> _baseRestaurantService;
         private readonly IBaseService<Address> _baseAddressService;
         private readonly IUserService _userService;
+        private readonly IThemeService _themeService;
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService, IUserService userService)
+        public RestaurantController(IBaseService<Restaurant> baseRestaurantService, IBaseService<Address> baseAddressService, IUserService userService, IThemeService themeService)
         {
             _baseRestaurantService = baseRestaurantService;
             _baseAddressService = baseAddressService;
             _userService = userService;
+            _themeService = themeService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -55,6 +57,16 @@ namespace Snacker.API.Controllers
                     Name = dto.Name,
                     RestaurantCategoryId = dto.RestaurantCategoryId,
                 }).Id;
+                _themeService.Add<ThemeValidator>(new Theme 
+                {
+                    Color = "#1d3557",
+                    FontColor = "#f3f7f8",
+                    Icon = string.Empty,
+                    SecondaryColor = "#457b9d",
+                    SecondaryFontColor = "#f3f7f8",
+                    TertiaryFontColor = "#a8dadc",
+                    RestaurantId = restaurantId
+                });
 
                 var random = new Random();
                 var generatedPassword = new string(

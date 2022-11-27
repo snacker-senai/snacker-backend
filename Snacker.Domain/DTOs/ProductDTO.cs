@@ -8,6 +8,7 @@ namespace Snacker.Domain.DTOs
         {
             Id = product.Id;
             Name = product.Name;
+            PreReady= product.PreReady;
             Description = product.Description;
             Price = product.Price;
             Image = product.Image;
@@ -26,5 +27,6 @@ namespace Snacker.Domain.DTOs
         public RestaurantDTO Restaurant { get; set; }
         public long RestaurantId { get; set; }
         public bool Active { get; set; }
+        public bool PreReady { get; set; }
     }
 }

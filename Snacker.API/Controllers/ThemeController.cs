@@ -57,7 +57,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _themeService.GetById(id));
         }
 
-        [Authorize(Roles = "Admin, Gestão")]
+        [Authorize()]
         [HttpGet("FromRestaurant")]
         public IActionResult GetFromRestaurant([FromHeader] string authorization)
         {
@@ -66,7 +66,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _themeService.GetFromRestaurant(restaurantId));
         }
 
-        [Authorize(Roles = "Admin, Gestão")]
+        [Authorize()]
         [HttpPost("FromRestaurant")]
         public IActionResult CreateFromRestaurant([FromBody] Theme theme, [FromHeader] string authorization)
         {
@@ -78,7 +78,7 @@ namespace Snacker.API.Controllers
             return Execute(() => _themeService.Add<ThemeValidator>(theme));
         }
 
-        [Authorize(Roles = "Admin, Gestão")]
+        [Authorize()]
         [HttpPut("FromRestaurant")]
         public IActionResult UpdateFromRestaurant([FromBody] Theme theme, [FromHeader] string authorization)
         {

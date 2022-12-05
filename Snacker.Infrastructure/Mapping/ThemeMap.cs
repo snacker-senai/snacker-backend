@@ -51,7 +51,7 @@ namespace Snacker.Infrastructure.Mapping
              .HasConversion(prop => prop.ToString(), prop => prop)
              .IsRequired()
              .HasColumnName("icon")
-             .HasColumnType("varchar(255)");
+             .HasColumnType("LONGTEXT");
         }
     }
 }

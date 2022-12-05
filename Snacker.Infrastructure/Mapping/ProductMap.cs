@@ -43,7 +43,7 @@ namespace Snacker.Infrastructure.Mapping
                 .HasConversion(prop => prop.ToString(), prop => prop)
                 .IsRequired()
                 .HasColumnName("image")
-                .HasColumnType("varchar(255)");
+                .HasColumnType("LONGTEXT");
 
             builder.Property(prop => prop.Active)
                 .IsRequired()

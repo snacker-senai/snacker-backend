@@ -45,6 +45,18 @@ namespace Snacker.Domain.Services
             return result;
         }
 
+        public ICollection<object> GetFromRestaurantWhereActive(long restaurantId)
+        {
+            var itens = _productRepository.SelectFromRestaurant(restaurantId).Where(p => p.Active == true);
+            var result = new List<object>();
+            foreach (var item in itens)
+            {
+                var dto = new ProductDTO(item);
+                result.Add(dto);
+            }
+            return result;
+        }
+
         public ICollection<ProductTopSellingDTO> GetTopSelling(long restaurantId, DateTime initialDate, DateTime finalDate)
         {
             var products = _productRepository.SelectTopSelling(restaurantId);

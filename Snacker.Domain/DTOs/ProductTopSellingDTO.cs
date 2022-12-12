@@ -10,10 +10,10 @@ namespace Snacker.Domain.DTOs
             Id = product.Id;
             Name = product.Name;
             Quantity = quantity;
-
+            Category = new ProductCategoryDTO(product.ProductCategory);
         }
         public string Name { get; set; }
-        public decimal Quantity { get; set; }
-       
+        public int Quantity { get; set; }
+        public ProductCategoryDTO Category { get; set; }
     }
 }

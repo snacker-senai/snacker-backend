@@ -116,6 +116,15 @@ namespace Snacker.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Gestão")]
+        [HttpGet("Count")]
+        public IActionResult UsersCount([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _userService.GetFromRestaurant(restaurantId).Count);
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

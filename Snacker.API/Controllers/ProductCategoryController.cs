@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Snacker.API.Controllers
@@ -130,6 +132,23 @@ namespace Snacker.API.Controllers
                 return BadRequest(ex);
             }
 
+        }
+
+        [Authorize(Roles = "Admin, Gestão")]
+        [HttpGet("TopSelling")]
+        public IActionResult GetTopSelling([FromHeader] string authorization, DateTime initialDate, DateTime finalDate)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+            var topSellingProducts = _productService.GetTopSelling(restaurantId, initialDate, finalDate);
+
+            var categoriesWithQuantity = new List<ProductCategoryTopSellingDTO>();
+
+            foreach(var product in topSellingProducts)
+            {
+                categoriesWithQuantity.Add(new ProductCategoryTopSellingDTO(product.Category, product.Quantity));
+            }
+
+            return Ok(categoriesWithQuantity.GroupBy(x => x.Name));
         }
 
         private IActionResult Execute(Func<object> func)

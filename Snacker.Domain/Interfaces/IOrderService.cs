@@ -10,6 +10,6 @@ namespace Snacker.Domain.Interfaces
         ICollection<object> GetByBill(long billId);
         ICollection<object> GetByTable(long tableId);
         ICollection<Order> GetEntireOrderByTable(long tableId);
-        ICollection<object> GetByStatus(long statusId);
+        ICollection<object> GetByStatus(long restaurantId, long statusId);
     }
 }

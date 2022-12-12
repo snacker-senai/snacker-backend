@@ -99,6 +99,15 @@ namespace Snacker.API.Controllers
             return Execute(() => _productService.Update<ProductValidator>(product));
         }
 
+        [Authorize(Roles = "Admin, Gestão")]
+        [HttpGet("Actives")]
+        public IActionResult GetActivesFromRestaurant([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _productService.GetFromRestaurantWhereActive(restaurantId).Count);
+        }
+
         private IActionResult Execute(Func<object> func)
         {
             try

@@ -7,6 +7,6 @@ namespace Snacker.Domain.Interfaces
     {
         ICollection<Order> SelectByBill(long billId);
         ICollection<Order> SelectByTable(long tableId);
-        ICollection<Order> SelectByStatus(long statusId);
+        ICollection<Order> SelectByStatus(long restaurantId, long statusId);
     }
 }

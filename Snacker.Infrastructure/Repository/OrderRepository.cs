@@ -23,9 +23,9 @@ namespace Snacker.Infrastructure.Repository
             return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).Where(p => p.Bill.Active && p.Bill.TableId == tableId).ToList();
         }
 
-        public ICollection<Order> SelectByStatus(long statusId)
+        public ICollection<Order> SelectByStatus(long restaurantId, long statusId)
         {
-            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).ToList();
+            return _mySqlContext.Set<Order>().Include(p => p.Bill).Include(p => p.Bill.Table).Include(p => p.OrderStatus).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.Product).Include(p => p.OrderHasProductCollection).ThenInclude(p => p.OrderStatus).Where(p => p.Table.RestaurantId == restaurantId).ToList();
         }
 
         public override Order Select(long id)

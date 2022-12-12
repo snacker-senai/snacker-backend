@@ -85,9 +85,9 @@ namespace Snacker.Domain.Services
             return _orderRepository.SelectByTable(tableId);
         }
 
-        public ICollection<object> GetByStatus(long statusId)
+        public ICollection<object> GetByStatus(long restaurantId, long statusId)
         {
-            var orders = _orderRepository.SelectByStatus(statusId);
+            var orders = _orderRepository.SelectByStatus(restaurantId, statusId);
             var result = new List<object>();
             foreach (var order in orders)
             {

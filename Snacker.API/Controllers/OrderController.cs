@@ -6,6 +6,7 @@ using Snacker.Domain.Interfaces;
 using Snacker.Domain.Validators;
 using System;
 using System.Linq;
+using System.Net;
 
 namespace Snacker.API.Controllers
 {
@@ -76,9 +77,20 @@ namespace Snacker.API.Controllers
 
         [Authorize(Roles = "Admin, Gestão, Entrega, Preparo")]
         [HttpGet("ByStatus/{statusId}")]
-        public IActionResult GetByStatus(long statusId)
+        public IActionResult GetByStatus([FromHeader] string authorization, long statusId)
         {
-            return Execute(() => _orderService.GetByStatus(statusId));
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _orderService.GetByStatus(restaurantId, statusId));
+        }
+
+        [Authorize(Roles = "Admin, Gestão")]
+        [HttpGet("Finished")]
+        public IActionResult GetFinishedOrders([FromHeader] string authorization)
+        {
+            var restaurantId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "RestaurantId"));
+
+            return Execute(() => _orderService.GetByStatus(restaurantId, 3).Count);
         }
 
         [Authorize(Roles = "Admin, Gestão, Entrega, Preparo")]

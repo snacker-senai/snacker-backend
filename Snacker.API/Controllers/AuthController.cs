@@ -12,11 +12,11 @@ namespace Snacker.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IBaseService<Table> _baseTableService;
+        private readonly ITableService _baseTableService;
         private readonly IBillService _billService;
         private readonly IThemeService _themeService;
 
-        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBillService billService, IThemeService themeService)
+        public AuthController(IAuthService authService, ITableService baseTableService, IBillService billService, IThemeService themeService)
         {
             _authService = authService;
             _baseTableService = baseTableService;
@@ -76,7 +76,7 @@ namespace Snacker.API.Controllers
                         BillId = billId,
                         ThemeId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId")),
                         Theme = _themeService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "ThemeId"))),
-                        Table = _baseTableService.GetById(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")))
+                        TableNumber = _baseTableService.GetTableNumber(long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId")))
                     });
                 }
                 else

@@ -6,5 +6,6 @@ namespace Snacker.Domain.Interfaces
     public interface ITableService : IBaseService<Table>
     {
         ICollection<object> GetFromRestaurant(long restaurantId);
+        string GetTableNumber(long tableId);
     }
 }

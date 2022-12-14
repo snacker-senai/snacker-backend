@@ -23,5 +23,10 @@ namespace Snacker.Domain.Services
             }
             return result;
         }
+
+        public string GetTableNumber(long tableId)
+        {
+            return _tableRepository.GetTableNumber(tableId);
+        }
     }
 }

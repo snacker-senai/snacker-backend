@@ -13,6 +13,11 @@ namespace Snacker.Infrastructure.Repository
         {
         }
 
+        public string GetTableNumber(long tableId)
+        {
+            return _mySqlContext.Set<Table>().Where(p => p.Id == tableId).First().Number;
+        }
+
         public ICollection<Table> SelectFromRestaurant(long restaurantId)
         {
             return _mySqlContext.Set<Table>().Where(p => p.RestaurantId == restaurantId).ToList();

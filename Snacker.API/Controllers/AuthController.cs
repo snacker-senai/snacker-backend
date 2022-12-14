@@ -78,7 +78,7 @@ namespace Snacker.API.Controllers
                 if (role == "Cliente")
                 {
                     var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
-                    var bill = new BillDTO((Bill)_baseBillService.GetById(billId));
+                    var bill = ((BillDTO)_baseBillService.GetById(billId));
                     if (!bill.Active)
                     {
                         return Unauthorized();

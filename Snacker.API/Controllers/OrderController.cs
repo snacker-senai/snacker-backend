@@ -151,7 +151,13 @@ namespace Snacker.API.Controllers
         {
             try
             {
-                var bill = _orderService.GetEntireOrderByTable(tableId).First().Bill;
+                var orders = _orderService.GetEntireOrderByTable(tableId);
+                foreach (var order in orders)
+                {
+                    order.OrderStatusId = 3;
+                    _orderService.Update<OrderValidator>(order);
+                }
+                var bill = orders.First().Bill;
                 bill.Active = false;
                 _baseBillService.Update<BillValidator>(bill);
                 return Ok();

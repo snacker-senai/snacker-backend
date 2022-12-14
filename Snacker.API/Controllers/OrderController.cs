@@ -131,9 +131,25 @@ namespace Snacker.API.Controllers
             {
                 var orderHasProduct = (OrderHasProduct)_baseOrderHasProductService.GetById(orderHasProductId);
                 var status = (OrderStatus)_baseStatusService.GetById(statusId);
-
+                
                 if (orderHasProduct == null || status == null)
                     return NotFound();
+
+                var unfinishedItens = 0;
+                foreach (var item in orderHasProduct.Order.OrderHasProductCollection)
+                {
+                    if (item.OrderStatusId != 3)
+                    {
+                        unfinishedItens++;
+                    }
+                }
+
+                if (unfinishedItens <= 1)
+                {
+                    var order = orderHasProduct.Order;
+                    order.OrderStatusId = 3;
+                    _orderService.Update<OrderValidator>(order);
+                }
 
                 orderHasProduct.OrderStatusId = status.Id;
                 _baseOrderHasProductService.Update<OrderHasProductValidator>(orderHasProduct);

@@ -16,5 +16,10 @@ namespace Snacker.Infrastructure.Repository
         {
             return _mySqlContext.Set<Bill>().Where(p => p.Active).Where(p => p.TableId == tableId).ToList();
         }
+
+        public Bill SelectByIdWithoutRelationships(long billId)
+        {
+            return _mySqlContext.Set<Bill>().Where(p => p.Id == billId).First();
+        }
     }
 }

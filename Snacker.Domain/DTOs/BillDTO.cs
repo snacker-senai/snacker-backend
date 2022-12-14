@@ -4,10 +4,6 @@ namespace Snacker.Domain.DTOs
 {
     public class BillDTO : BaseDTO
     {
-        public BillDTO()
-        {
-
-        }
         public BillDTO(Bill bill)
         {
             Id = bill.Id;

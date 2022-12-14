@@ -12,7 +12,7 @@ namespace Snacker.Domain.Services
             _billRepository = billRepository;
         }
 
-        public BillDTO GetById(long billId)
+        BillDTO IBillService.GetById(long billId)
         {
             return new BillDTO(_billRepository.Select(billId));
         }

@@ -14,7 +14,7 @@ namespace Snacker.Infrastructure.Repository
 
         public ICollection<Bill> SelectActiveFromTable(long tableId)
         {
-            return _mySqlContext.Set<Bill>().Where(p => p.Active).ToList();
+            return _mySqlContext.Set<Bill>().Where(p => p.Active).Where(p => p.TableId == tableId).ToList();
         }
     }
 }

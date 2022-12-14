@@ -59,10 +59,10 @@ namespace Snacker.API.Controllers
                 }).Id;
                 _themeService.Add<ThemeValidator>(new Theme 
                 {
-                    Color = "#720e07",
+                    Color = "#004b42",
                     FontColor = "#FFFFFF",
                     Icon = string.Empty,
-                    SecondaryColor = "#45050C",
+                    SecondaryColor = "#145c53",
                     SecondaryFontColor = "#FFFFFF",
                     TertiaryFontColor = "#E5E5E5",
                     RestaurantId = restaurantId

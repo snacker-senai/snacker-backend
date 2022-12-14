@@ -1,4 +1,5 @@
-﻿using Snacker.Domain.DTOs;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Snacker.Domain.DTOs;
 using Snacker.Domain.Entities;
 using Snacker.Domain.Interfaces;
 using System;
@@ -23,12 +24,22 @@ namespace Snacker.Domain.Services
 
         public Order Add<TValidator>(CreateOrderDTO dto, long tableId)
         {
-            var bill = _billRepository.SelectActiveFromTable(tableId).First();
+            var bills = _billRepository.SelectActiveFromTable(tableId);
+            long billId;
+            if (bills.Any())
+            {
+                billId = bills.First().Id;
+            }
+            else
+            {
+                _billRepository.Insert(new Bill { Active = true, TableId = tableId });
+                billId = _billRepository.SelectActiveFromTable(tableId).First().Id;
+            }
             var order = new Order
             {
                 OrderStatusId = 1,
                 TableId = tableId,
-                BillId = bill.Id,
+                BillId = billId,
                 CreatedAt = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"))
             };
             _orderRepository.Insert(order);

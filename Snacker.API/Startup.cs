@@ -87,7 +87,7 @@ namespace Snacker.API
             services.AddScoped<IBaseService<OrderHasProduct>, BaseService<OrderHasProduct>>();
 
             services.AddScoped<IBaseRepository<Bill>, BaseRepository<Bill>>();
-            services.AddScoped<IBaseService<Bill>, BaseService<Bill>>();
+            services.AddScoped<IBaseService<Bill>, BillService>();
 
             services.AddScoped<IBaseRepository<OrderStatus>, BaseRepository<OrderStatus>>();
             services.AddScoped<IBaseService<OrderStatus>, BaseService<OrderStatus>>();

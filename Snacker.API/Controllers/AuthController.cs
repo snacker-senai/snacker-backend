@@ -52,22 +52,6 @@ namespace Snacker.API.Controllers
             return Execute(() => _authService.GenerateClientToken(tableId));
         }
 
-        [Authorize(Roles = "Cliente")]
-        [HttpGet("ClientSessionInfo")]
-        public IActionResult GetClientSessionInfo([FromHeader] string authorization)
-        {
-            var tableId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
-            var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
-            var bill = (Bill)_baseBillService.GetById(billId);
-
-            if (!bill.Active)
-            {
-                return Unauthorized();
-            }
-
-            return Execute(() => _baseTableService.GetById(tableId));
-        }
-
         [Authorize]
         [HttpGet("TokenClaims")]
         public IActionResult GetTokenClaims([FromHeader] string authorization)
@@ -78,7 +62,7 @@ namespace Snacker.API.Controllers
                 if (role == "Cliente")
                 {
                     var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
-                    var bill = ((BillDTO)_baseBillService.GetById(billId));
+                    var bill = _baseBillService.GetById(billId);
                     if (!bill.Active)
                     {
                         return Unauthorized();

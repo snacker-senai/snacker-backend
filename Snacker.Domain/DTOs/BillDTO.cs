@@ -13,6 +13,6 @@ namespace Snacker.Domain.DTOs
             Id = bill.Id;
             Active = bill.Active;
         }
-        public boolean Active { get; set; }
+        public bool Active { get; set; }
     }
 }

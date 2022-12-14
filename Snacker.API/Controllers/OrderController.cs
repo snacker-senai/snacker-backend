@@ -108,7 +108,7 @@ namespace Snacker.API.Controllers
                 order.OrderStatusId = status.Id;
                 foreach (var orderItem in order.OrderHasProductCollection)
                 {
-                    if (orderItem.OrderStatusId < statusId)
+                    if (orderItem.OrderStatusId == statusId - 1)
                     {
                         orderItem.OrderStatusId = statusId;
                     }

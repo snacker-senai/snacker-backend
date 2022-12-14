@@ -33,6 +33,16 @@ namespace Snacker.API.Controllers
         [HttpPost]
         public IActionResult Create([FromHeader] string authorization, [FromBody] CreateOrderDTO dto)
         {
+            var role = _authService.GetTokenValue(authorization.Split(" ")[1], "role");
+            if (role == "Cliente")
+            {
+                var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
+                var bill = (Bill)_baseBillService.GetById(billId);
+                if (!bill.Active)
+                {
+                    return Unauthorized();
+                }
+            }
             var tableId = dto.TableId.HasValue ? dto.TableId.Value : long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "TableId"));
             return Execute(() => _orderService.Add<OrderValidator>(dto, tableId).Id);
         }

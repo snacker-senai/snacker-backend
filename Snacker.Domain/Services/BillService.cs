@@ -4,7 +4,7 @@ using Snacker.Domain.Interfaces;
 
 namespace Snacker.Domain.Services
 {
-    public class BillService : BaseService<Bill>
+    public class BillService : BaseService<Bill>, IBillService
     {
         private readonly IBaseRepository<Bill> _billRepository;
         public BillService(IBaseRepository<Bill> billRepository) : base(billRepository)
@@ -12,9 +12,9 @@ namespace Snacker.Domain.Services
             _billRepository = billRepository;
         }
 
-        public override object GetById(long id)
+        public BillDTO GetById(long billId)
         {
-            return new BillDTO(_billRepository.Select(id));
+            return new BillDTO(_billRepository.Select(billId));
         }
     }
 }

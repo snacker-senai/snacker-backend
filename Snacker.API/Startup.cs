@@ -87,7 +87,7 @@ namespace Snacker.API
             services.AddScoped<IBaseService<OrderHasProduct>, BaseService<OrderHasProduct>>();
 
             services.AddScoped<IBaseRepository<Bill>, BaseRepository<Bill>>();
-            services.AddScoped<IBaseService<Bill>, BillService>();
+            services.AddScoped<IBaseService<Bill>, BaseService<Bill>>();
 
             services.AddScoped<IBaseRepository<OrderStatus>, BaseRepository<OrderStatus>>();
             services.AddScoped<IBaseService<OrderStatus>, BaseService<OrderStatus>>();
@@ -113,6 +113,8 @@ namespace Snacker.API
 
             services.AddScoped<IThemeService, ThemeService>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
+
+            services.AddScoped<IBillService, BillService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -13,14 +13,14 @@ namespace Snacker.API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IBaseService<Table> _baseTableService;
-        private readonly IBaseService<Bill> _baseBillService;
+        private readonly IBillService _billService;
         private readonly IThemeService _themeService;
 
-        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBaseService<Bill> baseBillService, IThemeService themeService)
+        public AuthController(IAuthService authService, IBaseService<Table> baseTableService, IBillService billService, IThemeService themeService)
         {
             _authService = authService;
             _baseTableService = baseTableService;
-            _baseBillService = baseBillService;
+            _billService = billService;
             _themeService = themeService;
         }
 
@@ -62,7 +62,7 @@ namespace Snacker.API.Controllers
                 if (role == "Cliente")
                 {
                     var billId = long.Parse(_authService.GetTokenValue(authorization.Split(" ")[1], "BillId"));
-                    var bill = _baseBillService.GetById(billId);
+                    var bill = _billService.GetById(billId);
                     if (!bill.Active)
                     {
                         return Unauthorized();
